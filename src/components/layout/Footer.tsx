@@ -34,7 +34,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
           {/* Brand */}
           <div className="md:col-span-1">
-            <DCDLogo showImage={false} size="md" />
+            <DCDLogo size="md" />
             <p className="mt-4 text-sm text-gray-400 leading-relaxed">
               Digital Campus Dz — Votre école d&apos;e-learning algérienne. Des cours en ligne via Google Meet, animés par des professeurs disponibles et passionnés.
             </p>
