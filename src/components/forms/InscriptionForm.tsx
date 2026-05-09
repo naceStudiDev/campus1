@@ -16,12 +16,23 @@ interface FormData {
 
 export default function InscriptionForm() {
   const [submitted, setSubmitted] = useState(false)
+  const [serverError, setServerError] = useState('')
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<FormData>()
 
   const onSubmit = async (data: FormData) => {
-    await new Promise((r) => setTimeout(r, 1200))
-    console.log('Inscription:', data)
-    setSubmitted(true)
+    setServerError('')
+    const res = await fetch('/api/inscriptions', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    })
+
+    if (res.ok) {
+      setSubmitted(true)
+    } else {
+      const err = await res.json()
+      setServerError(err.error || 'Une erreur est survenue, réessaie.')
+    }
   }
 
   if (submitted) {
@@ -38,7 +49,7 @@ export default function InscriptionForm() {
         </p>
         <div className="mt-6 inline-flex items-center gap-2 px-4 py-2 bg-[#34A853]/10 text-[#34A853] rounded-full text-sm font-semibold">
           <span className="w-2 h-2 bg-[#34A853] rounded-full animate-pulse" />
-          Un email de confirmation arrive dans ta boîte
+          Inscription enregistrée avec succès
         </div>
       </motion.div>
     )
@@ -48,7 +59,7 @@ export default function InscriptionForm() {
     `w-full px-4 py-3 rounded-xl border text-sm transition-colors outline-none focus:ring-2 ${
       hasError
         ? 'border-[#EA4335] focus:ring-[#EA4335]/30'
-        : 'border-gray-200 focus:border-[#4285F4] focus:ring-[#4285F4]/20'
+        : 'border-gray-200 focus:border-[#34A853] focus:ring-[#34A853]/20'
     }`
 
   return (
@@ -124,14 +135,21 @@ export default function InscriptionForm() {
           {...register('message')}
           rows={3}
           placeholder="Des questions ? Dis-nous en plus sur ton niveau actuel..."
-          className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm transition-colors outline-none focus:border-[#4285F4] focus:ring-2 focus:ring-[#4285F4]/20 resize-none"
+          className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm transition-colors outline-none focus:border-[#34A853] focus:ring-2 focus:ring-[#34A853]/20 resize-none"
         />
       </div>
+
+      {serverError && (
+        <p className="text-[#EA4335] text-sm bg-[#EA4335]/10 px-4 py-3 rounded-xl">
+          ❌ {serverError}
+        </p>
+      )}
 
       <button
         type="submit"
         disabled={isSubmitting}
-        className="w-full py-4 bg-[#4285F4] hover:bg-[#3367d6] text-white font-bold rounded-xl transition-all duration-200 hover:shadow-lg disabled:opacity-60 disabled:cursor-not-allowed text-sm"
+        className="w-full py-4 text-white font-bold rounded-xl transition-all duration-200 hover:shadow-lg disabled:opacity-60 disabled:cursor-not-allowed text-sm"
+        style={{ background: 'linear-gradient(135deg, #34A853 0%, #2d8f47 100%)' }}
       >
         {isSubmitting ? (
           <span className="flex items-center justify-center gap-2">
