@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase'
-import { cookies } from 'next/headers'
 
 export async function POST(req: NextRequest) {
   const body = await req.json()
@@ -28,9 +27,8 @@ export async function POST(req: NextRequest) {
   return NextResponse.json({ success: true }, { status: 201 })
 }
 
-export async function GET() {
-  const cookieStore = cookies()
-  const session = cookieStore.get('admin_session')
+export async function GET(req: NextRequest) {
+  const session = req.cookies.get('admin_session')
 
   if (session?.value !== process.env.ADMIN_PASSWORD) {
     return NextResponse.json({ error: 'Non autorisé' }, { status: 401 })

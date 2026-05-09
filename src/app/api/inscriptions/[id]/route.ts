@@ -1,10 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase'
-import { cookies } from 'next/headers'
 
 export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
-  const cookieStore = cookies()
-  const session = cookieStore.get('admin_session')
+  const session = req.cookies.get('admin_session')
 
   if (session?.value !== process.env.ADMIN_PASSWORD) {
     return NextResponse.json({ error: 'Non autorisé' }, { status: 401 })
@@ -23,8 +21,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
 }
 
 export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
-  const cookieStore = cookies()
-  const session = cookieStore.get('admin_session')
+  const session = req.cookies.get('admin_session')
 
   if (session?.value !== process.env.ADMIN_PASSWORD) {
     return NextResponse.json({ error: 'Non autorisé' }, { status: 401 })
