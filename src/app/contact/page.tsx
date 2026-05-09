@@ -2,8 +2,8 @@ import ContactForm from '@/components/forms/ContactForm'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Contact — Digital Campus Dz',
-  description: 'Contactez l\'équipe de Digital Campus Dz pour toute question sur nos formations.',
+  title: 'Contact',
+  description: "Contactez l'équipe de Digital Campus Dz pour toute question sur nos formations.",
 }
 
 const socials = [

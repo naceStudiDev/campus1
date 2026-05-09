@@ -5,8 +5,8 @@ import Button from '@/components/ui/Button'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Formations — Digital Campus Dz',
-  description: 'Découvrez toutes nos formations en ligne : Python, Développement Web, Django, Data Science et plus.',
+  title: 'Formations',
+  description: 'Découvrez toutes nos formations en ligne : Python, Développement Web, Cybersécurité, Algorithmique et plus.',
 }
 
 export default function FormationsPage() {

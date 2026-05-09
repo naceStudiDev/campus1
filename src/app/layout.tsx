@@ -2,16 +2,22 @@ import type { Metadata } from 'next'
 import './globals.css'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
+import WhatsAppButton from '@/components/ui/WhatsAppButton'
 
 export const metadata: Metadata = {
-  title: 'Digital Campus Dz — École d\'e-learning algérienne',
-  description: 'Apprenez la programmation et le développement web en ligne via Google Meet avec des professeurs disponibles et passionnés. Formations Python, Web, Data Science et plus.',
-  keywords: ['e-learning', 'algérie', 'programmation', 'cours en ligne', 'python', 'dev web', 'google meet'],
+  metadataBase: new URL('https://www.digitalcampus-dz.com'),
+  title: {
+    default: 'Digital Campus Dz | Cours de programmation en ligne – Algérie',
+    template: '%s | Digital Campus Dz',
+  },
+  description: 'Digital Campus Dz, l\'école fondée par des étudiants pour des étudiants. Cours en ligne de programmation, cybersécurité, algorithmique et marketing digital via Google Meet en Algérie.',
+  keywords: ['e-learning', 'algérie', 'programmation', 'python', 'algorithmique', 'cybersécurité', 'cours en ligne', 'google meet', 'digital campus dz', 'DZD'],
   openGraph: {
-    title: 'Digital Campus Dz',
-    description: 'Votre école d\'e-learning algérienne — Cours en ligne via Google Meet',
+    siteName: 'Digital Campus Dz',
     locale: 'fr_DZ',
     type: 'website',
+    title: 'Digital Campus Dz | Cours de programmation en ligne – Algérie',
+    description: 'L\'école fondée par des étudiants pour des étudiants. Cours en ligne via Google Meet.',
   },
 }
 
@@ -25,6 +31,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Header />
         <main>{children}</main>
         <Footer />
+        <WhatsAppButton />
       </body>
     </html>
   )

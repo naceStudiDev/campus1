@@ -2,8 +2,8 @@ import InscriptionForm from '@/components/forms/InscriptionForm'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Inscription — Digital Campus Dz',
-  description: 'Inscris-toi à Digital Campus Dz et commence ta formation en ligne dès aujourd\'hui.',
+  title: 'Inscription',
+  description: "Inscris-toi à Digital Campus Dz et commence ta formation en ligne dès aujourd'hui.",
 }
 
 export default function InscriptionPage() {
