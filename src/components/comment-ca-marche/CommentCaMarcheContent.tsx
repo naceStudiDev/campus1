@@ -128,9 +128,17 @@ export default function CommentCaMarcheContent() {
         <div className="max-w-3xl mx-auto px-4 text-center text-white">
           <h2 className="text-3xl font-black mb-4">Convaincu ? Lance-toi !</h2>
           <p className="text-blue-100 mb-8">Inscription rapide, premier cours gratuit.</p>
-          <Button href="/inscription" variant="secondary" className="text-gray-900 text-base px-8 py-4">
-            S&apos;inscrire maintenant
-          </Button>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Button href="/inscription" variant="secondary" className="text-gray-900 text-base px-8 py-4">
+              S&apos;inscrire maintenant
+            </Button>
+            <a
+              href="/#faq"
+              className="text-blue-100 hover:text-white text-sm underline underline-offset-4 transition-colors"
+            >
+              Encore des questions ? Voir la FAQ →
+            </a>
+          </div>
         </div>
       </section>
     </>

@@ -2,6 +2,7 @@ import HeroSection from '@/components/home/HeroSection'
 import PillarsSection from '@/components/home/PillarsSection'
 import StatsSection from '@/components/home/StatsSection'
 import Temoignages from '@/components/home/Temoignages'
+import FAQ from '@/components/home/FAQ'
 import Button from '@/components/ui/Button'
 import SectionTitle from '@/components/ui/SectionTitle'
 import { formations } from '@/data/formations'
@@ -13,6 +14,7 @@ export default function HomePage() {
       <PillarsSection />
       <StatsSection />
       <Temoignages />
+      <FAQ />
 
       {/* Formations aperçu */}
       <section className="py-24 bg-gray-50">
