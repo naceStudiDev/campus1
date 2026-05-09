@@ -1,129 +1,232 @@
 'use client'
 
 import { useState } from 'react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import SectionTitle from '@/components/ui/SectionTitle'
 import Button from '@/components/ui/Button'
 
-const categories = ['Tout', 'Python', 'Dev Web', 'Django', 'Data Science', 'Marketing', 'Outils']
+const categories = ['Tout', 'Python', 'Dev Web', 'Django', 'Data Science', 'Cybersécurité', 'Langage C', 'Architecture', 'Marketing', 'Outils']
 
 const resources = [
+  // Python
   {
-    type: 'PDF',
-    typeColor: '#EA4335',
-    icon: '📄',
+    type: 'PDF', typeColor: '#EA4335', icon: '📄',
     title: 'Bases de Python — Guide complet débutant',
     description: 'Variables, fonctions, boucles, POO — tout ce qu\'il faut pour bien démarrer avec Python.',
-    category: 'Python',
-    level: 'Débutant',
-    pages: '48 pages',
-    tag: 'Gratuit',
-    tagColor: '#34A853',
+    category: 'Python', level: 'Débutant', meta: '48 pages', tag: 'Gratuit', tagColor: '#34A853',
   },
   {
-    type: 'Vidéo',
-    typeColor: '#4285F4',
-    icon: '🎬',
-    title: 'HTML & CSS en 2h — Crash Course',
-    description: 'Créez votre première page web de A à Z, avec mise en page responsive.',
-    category: 'Dev Web',
-    level: 'Débutant',
-    pages: '2h 10min',
-    tag: 'Gratuit',
-    tagColor: '#34A853',
-  },
-  {
-    type: 'Exercices',
-    typeColor: '#34A853',
-    icon: '✏️',
+    type: 'Exercices', typeColor: '#34A853', icon: '✏️',
     title: '30 exercices Python corrigés',
     description: 'Des exercices progressifs avec corrections détaillées pour pratiquer Python au quotidien.',
-    category: 'Python',
-    level: 'Intermédiaire',
-    pages: '30 exercices',
-    tag: 'Gratuit',
-    tagColor: '#34A853',
+    category: 'Python', level: 'Intermédiaire', meta: '30 exercices', tag: 'Gratuit', tagColor: '#34A853',
   },
   {
-    type: 'PDF',
-    typeColor: '#EA4335',
-    icon: '📄',
+    type: 'Fiche', typeColor: '#FBBC05', icon: '📋',
+    title: 'Cheatsheet Python — Syntaxe essentielle',
+    description: 'Toutes les commandes Python les plus utiles condensées sur 2 pages. Parfait à garder ouvert pendant le code.',
+    category: 'Python', level: 'Débutant', meta: '2 pages', tag: 'Gratuit', tagColor: '#34A853',
+  },
+  {
+    type: 'Vidéo', typeColor: '#4285F4', icon: '🎬',
+    title: 'Python OOP — La programmation orientée objet expliquée',
+    description: 'Classes, héritage, encapsulation et polymorphisme avec des exemples concrets tirés de projets réels.',
+    category: 'Python', level: 'Intermédiaire', meta: '1h 45min', tag: 'D.C.D Exclusif', tagColor: '#4285F4',
+  },
+  // Dev Web
+  {
+    type: 'Vidéo', typeColor: '#4285F4', icon: '🎬',
+    title: 'HTML & CSS en 2h — Crash Course',
+    description: 'Créez votre première page web de A à Z, avec mise en page responsive et bonnes pratiques.',
+    category: 'Dev Web', level: 'Débutant', meta: '2h 10min', tag: 'Gratuit', tagColor: '#34A853',
+  },
+  {
+    type: 'PDF', typeColor: '#EA4335', icon: '📄',
     title: 'JavaScript ES6+ — Les nouveautés essentielles',
     description: 'Arrow functions, destructuring, async/await, modules — maîtrisez le JS moderne.',
-    category: 'Dev Web',
-    level: 'Intermédiaire',
-    pages: '62 pages',
-    tag: 'Gratuit',
-    tagColor: '#34A853',
+    category: 'Dev Web', level: 'Intermédiaire', meta: '62 pages', tag: 'Gratuit', tagColor: '#34A853',
   },
   {
-    type: 'Fiche',
-    typeColor: '#FBBC05',
-    icon: '📋',
-    title: 'Cheatsheet Git & GitHub',
-    description: 'Toutes les commandes Git essentielles sur une seule page. À garder sous la main.',
-    category: 'Outils',
-    level: 'Débutant',
-    pages: '2 pages',
-    tag: 'Gratuit',
-    tagColor: '#34A853',
+    type: 'Fiche', typeColor: '#FBBC05', icon: '📋',
+    title: 'Cheatsheet CSS Flexbox & Grid',
+    description: 'Toutes les propriétés Flexbox et Grid illustrées avec des exemples visuels. Le guide de référence indispensable.',
+    category: 'Dev Web', level: 'Débutant', meta: '3 pages', tag: 'Gratuit', tagColor: '#34A853',
   },
   {
-    type: 'Vidéo',
-    typeColor: '#4285F4',
-    icon: '🎬',
+    type: 'Guide', typeColor: '#34A853', icon: '🗺️',
+    title: 'Roadmap Développeur Web — 6 mois pour devenir junior',
+    description: 'Un plan détaillé semaine par semaine pour passer de zéro à développeur web junior employable.',
+    category: 'Dev Web', level: 'Tous niveaux', meta: '1 page', tag: 'D.C.D Exclusif', tagColor: '#4285F4',
+  },
+  // Django
+  {
+    type: 'Vidéo', typeColor: '#4285F4', icon: '🎬',
     title: 'Django de zéro — Créer une app complète',
-    description: 'Modèles, vues, templates, authentification — construisez une vraie application web.',
-    category: 'Django',
-    level: 'Intermédiaire',
-    pages: '3h 45min',
-    tag: 'D.C.D Exclusif',
-    tagColor: '#4285F4',
+    description: 'Modèles, vues, templates, authentification — construisez une vraie application web avec Django.',
+    category: 'Django', level: 'Intermédiaire', meta: '3h 45min', tag: 'D.C.D Exclusif', tagColor: '#4285F4',
   },
   {
-    type: 'PDF',
-    typeColor: '#EA4335',
-    icon: '📄',
-    title: 'Introduction à la Data Science',
-    description: 'Pandas, NumPy, Matplotlib — analysez vos premières données avec Python.',
-    category: 'Data Science',
-    level: 'Débutant',
-    pages: '55 pages',
-    tag: 'Gratuit',
-    tagColor: '#34A853',
+    type: 'PDF', typeColor: '#EA4335', icon: '📄',
+    title: 'Django REST Framework — Créer une API',
+    description: 'Serializers, ViewSets, authentification par token — construisez une API REST robuste et documentée.',
+    category: 'Django', level: 'Avancé', meta: '55 pages', tag: 'D.C.D Exclusif', tagColor: '#4285F4',
+  },
+  // Data Science
+  {
+    type: 'PDF', typeColor: '#EA4335', icon: '📄',
+    title: 'Introduction à la Data Science avec Python',
+    description: 'Pandas, NumPy, Matplotlib — analysez vos premières données et créez des visualisations percutantes.',
+    category: 'Data Science', level: 'Débutant', meta: '55 pages', tag: 'Gratuit', tagColor: '#34A853',
   },
   {
-    type: 'Guide',
-    typeColor: '#34A853',
-    icon: '🗺️',
-    title: 'Roadmap — Devenir développeur Web en 6 mois',
-    description: 'Un plan détaillé semaine par semaine pour passer de débutant à dev web junior.',
-    category: 'Outils',
-    level: 'Tous niveaux',
-    pages: '1 page',
-    tag: 'D.C.D Exclusif',
-    tagColor: '#4285F4',
+    type: 'Fiche', typeColor: '#FBBC05', icon: '📋',
+    title: 'Cheatsheet Pandas — Les 50 opérations essentielles',
+    description: 'Filtrage, groupby, merge, pivot — toutes les opérations Pandas dont tu as besoin au quotidien.',
+    category: 'Data Science', level: 'Intermédiaire', meta: '4 pages', tag: 'Gratuit', tagColor: '#34A853',
   },
   {
-    type: 'PDF',
-    typeColor: '#EA4335',
-    icon: '📄',
+    type: 'Guide', typeColor: '#34A853', icon: '🗺️',
+    title: 'Machine Learning — Les algorithmes expliqués simplement',
+    description: 'Régression, classification, clustering — comprendre les algos ML sans les maths complexes.',
+    category: 'Data Science', level: 'Intermédiaire', meta: '30 pages', tag: 'D.C.D Exclusif', tagColor: '#4285F4',
+  },
+  // Cybersécurité
+  {
+    type: 'PDF', typeColor: '#EA4335', icon: '📄',
+    title: 'Introduction à la Cybersécurité',
+    description: 'Les menaces courantes, types d\'attaques, bonnes pratiques et premières défenses — guide complet pour débuter.',
+    category: 'Cybersécurité', level: 'Débutant', meta: '60 pages', tag: 'Gratuit', tagColor: '#34A853',
+  },
+  {
+    type: 'Fiche', typeColor: '#FBBC05', icon: '📋',
+    title: 'OWASP Top 10 — Les failles web à connaître',
+    description: 'Les 10 vulnérabilités les plus critiques des applications web : injection SQL, XSS, CSRF et comment les éviter.',
+    category: 'Cybersécurité', level: 'Intermédiaire', meta: '5 pages', tag: 'Gratuit', tagColor: '#34A853',
+  },
+  {
+    type: 'Guide', typeColor: '#34A853', icon: '🗺️',
+    title: 'Débuter en CTF — Capture The Flag pour les nuls',
+    description: 'Comprendre les CTF, les catégories (web, crypto, forensics, pwn), les outils indispensables et les premières plateformes.',
+    category: 'Cybersécurité', level: 'Débutant', meta: '20 pages', tag: 'D.C.D Exclusif', tagColor: '#4285F4',
+  },
+  {
+    type: 'Vidéo', typeColor: '#4285F4', icon: '🎬',
+    title: 'Ethical Hacking — Introduction au pentest web',
+    description: 'Reconnaissance, scanning, exploitation de failles basiques — une introduction pratique au test d\'intrusion.',
+    category: 'Cybersécurité', level: 'Intermédiaire', meta: '2h 30min', tag: 'D.C.D Exclusif', tagColor: '#4285F4',
+  },
+  // Langage C
+  {
+    type: 'PDF', typeColor: '#EA4335', icon: '📄',
+    title: 'Le Langage C — Guide universitaire complet',
+    description: 'Variables, pointeurs, tableaux, structures, fichiers — tout le programme universitaire L1/L2 couvert.',
+    category: 'Langage C', level: 'Débutant', meta: '80 pages', tag: 'Gratuit', tagColor: '#34A853',
+  },
+  {
+    type: 'Exercices', typeColor: '#34A853', icon: '✏️',
+    title: '50 exercices C corrigés — Du plus simple au complexe',
+    description: 'Exercices classés par thème : boucles, fonctions, tableaux, chaînes, pointeurs, listes chaînées.',
+    category: 'Langage C', level: 'Débutant', meta: '50 exercices', tag: 'D.C.D Exclusif', tagColor: '#4285F4',
+  },
+  {
+    type: 'Fiche', typeColor: '#FBBC05', icon: '📋',
+    title: 'Cheatsheet Pointeurs en C — Démystifiés',
+    description: 'Pointeurs simples, doubles, pointeurs de fonctions, allocation dynamique — tout ce qui fait peur, enfin expliqué.',
+    category: 'Langage C', level: 'Intermédiaire', meta: '3 pages', tag: 'Gratuit', tagColor: '#34A853',
+  },
+  {
+    type: 'Guide', typeColor: '#34A853', icon: '🗺️',
+    title: 'Structures de données en C — Listes, piles, files, arbres',
+    description: 'Implémentation complète des structures de données classiques en C avec explications et schémas.',
+    category: 'Langage C', level: 'Avancé', meta: '45 pages', tag: 'D.C.D Exclusif', tagColor: '#4285F4',
+  },
+  // Architecture Machine
+  {
+    type: 'PDF', typeColor: '#EA4335', icon: '📄',
+    title: 'Architecture des ordinateurs — Cours complet',
+    description: 'Représentation binaire, circuits logiques, architecture CPU (ALU, registres, pipeline), hiérarchie mémoire.',
+    category: 'Architecture', level: 'Débutant', meta: '70 pages', tag: 'Gratuit', tagColor: '#34A853',
+  },
+  {
+    type: 'Fiche', typeColor: '#FBBC05', icon: '📋',
+    title: 'Conversion binaire, octal, hexadécimal — Mémo',
+    description: 'Toutes les tables de conversion et les méthodes rapides pour passer d\'une base à l\'autre en un coup d\'œil.',
+    category: 'Architecture', level: 'Débutant', meta: '2 pages', tag: 'Gratuit', tagColor: '#34A853',
+  },
+  {
+    type: 'Vidéo', typeColor: '#4285F4', icon: '🎬',
+    title: 'Assembleur x86 — Introduction pratique',
+    description: 'Les registres, les instructions de base, le passage de paramètres et le lien avec le langage C.',
+    category: 'Architecture', level: 'Intermédiaire', meta: '1h 50min', tag: 'D.C.D Exclusif', tagColor: '#4285F4',
+  },
+  // Marketing Digital
+  {
+    type: 'PDF', typeColor: '#EA4335', icon: '📄',
     title: 'Marketing Digital — Les fondamentaux',
-    description: 'SEO, réseaux sociaux, e-mail marketing, publicité en ligne — le guide complet.',
-    category: 'Marketing',
-    level: 'Débutant',
-    pages: '40 pages',
-    tag: 'Gratuit',
-    tagColor: '#34A853',
+    description: 'SEO, réseaux sociaux, e-mail marketing, publicité en ligne — le guide complet pour débuter.',
+    category: 'Marketing', level: 'Débutant', meta: '50 pages', tag: 'Gratuit', tagColor: '#34A853',
+  },
+  {
+    type: 'Guide', typeColor: '#34A853', icon: '🗺️',
+    title: 'SEO en 2024 — Référencer son site sur Google',
+    description: 'Mots-clés, backlinks, Core Web Vitals, SEO technique — une stratégie complète pour apparaître en première page.',
+    category: 'Marketing', level: 'Intermédiaire', meta: '40 pages', tag: 'D.C.D Exclusif', tagColor: '#4285F4',
+  },
+  {
+    type: 'Fiche', typeColor: '#FBBC05', icon: '📋',
+    title: 'Calendrier éditorial — Template prêt à l\'emploi',
+    description: 'Template de planification de contenu pour les réseaux sociaux sur 30 jours, avec exemples pour chaque plateforme.',
+    category: 'Marketing', level: 'Débutant', meta: '1 page', tag: 'Gratuit', tagColor: '#34A853',
+  },
+  {
+    type: 'Vidéo', typeColor: '#4285F4', icon: '🎬',
+    title: 'Google Ads — Lancer sa première campagne',
+    description: 'Créer une campagne search, choisir ses mots-clés, définir son budget et analyser les résultats.',
+    category: 'Marketing', level: 'Débutant', meta: '1h 20min', tag: 'D.C.D Exclusif', tagColor: '#4285F4',
+  },
+  // Outils
+  {
+    type: 'Fiche', typeColor: '#FBBC05', icon: '📋',
+    title: 'Cheatsheet Git & GitHub',
+    description: 'Toutes les commandes Git essentielles sur une seule page. À garder sous la main en permanence.',
+    category: 'Outils', level: 'Débutant', meta: '2 pages', tag: 'Gratuit', tagColor: '#34A853',
+  },
+  {
+    type: 'Guide', typeColor: '#34A853', icon: '🗺️',
+    title: 'VS Code — Les extensions incontournables',
+    description: 'Sélection des meilleures extensions VS Code par domaine : Python, web, cybersécurité, productivité.',
+    category: 'Outils', level: 'Tous niveaux', meta: '10 pages', tag: 'Gratuit', tagColor: '#34A853',
+  },
+  {
+    type: 'Fiche', typeColor: '#FBBC05', icon: '📋',
+    title: 'Linux — Commandes terminal essentielles',
+    description: 'Navigation, gestion de fichiers, droits, processus, réseau — les 50 commandes Linux à connaître absolument.',
+    category: 'Outils', level: 'Débutant', meta: '3 pages', tag: 'Gratuit', tagColor: '#34A853',
   },
 ]
 
+const typeIcons: Record<string, string> = {
+  'PDF': '📄', 'Vidéo': '🎬', 'Exercices': '✏️', 'Fiche': '📋', 'Guide': '🗺️',
+}
+
 export default function BibliothequePage() {
   const [activeCategory, setActiveCategory] = useState('Tout')
+  const [activeType, setActiveType] = useState('Tout')
 
-  const filtered = activeCategory === 'Tout'
-    ? resources
-    : resources.filter((r) => r.category === activeCategory)
+  const filtered = resources.filter((r) => {
+    const matchCat = activeCategory === 'Tout' || r.category === activeCategory
+    const matchType = activeType === 'Tout' || r.type === activeType
+    return matchCat && matchType
+  })
+
+  const types = ['Tout', 'PDF', 'Vidéo', 'Exercices', 'Fiche', 'Guide']
+
+  const stats = [
+    { value: `${resources.length}`, label: 'Ressources', color: '#4285F4' },
+    { value: `${resources.filter(r => r.tag === 'Gratuit').length}`, label: 'Gratuites', color: '#34A853' },
+    { value: `${resources.filter(r => r.tag === 'D.C.D Exclusif').length}`, label: 'Exclusives D.C.D', color: '#EA4335' },
+    { value: `${categories.length - 1}`, label: 'Catégories', color: '#FBBC05' },
+  ]
 
   return (
     <>
@@ -142,15 +245,30 @@ export default function BibliothequePage() {
         </div>
       </section>
 
-      {/* Filters */}
-      <section className="py-8 bg-white border-b border-gray-100 sticky top-16 z-30">
+      {/* Stats */}
+      <section className="py-8 bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-wrap gap-2 justify-center">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+            {stats.map((s) => (
+              <div key={s.label}>
+                <p className="text-4xl font-black" style={{ color: s.color }}>{s.value}</p>
+                <p className="text-gray-400 text-sm mt-1">{s.label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Filters */}
+      <section className="py-6 bg-white border-b border-gray-100 sticky top-16 z-30 shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-3">
+          {/* Categories */}
+          <div className="flex flex-wrap gap-2">
             {categories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
-                className={`px-4 py-2 rounded-full text-sm font-semibold transition-all ${
+                className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all ${
                   activeCategory === cat
                     ? 'bg-[#4285F4] text-white shadow-md'
                     : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
@@ -160,75 +278,92 @@ export default function BibliothequePage() {
               </button>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* Resources grid */}
-      <section className="py-16 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <p className="text-sm text-gray-400 mb-6 text-center">
-            {filtered.length} ressource{filtered.length > 1 ? 's' : ''} disponible{filtered.length > 1 ? 's' : ''}
-          </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filtered.map((res, i) => (
-              <motion.div
-                key={i}
-                layout
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: i * 0.06 }}
-                className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all hover:-translate-y-1 flex flex-col overflow-hidden"
+          {/* Types */}
+          <div className="flex flex-wrap gap-2">
+            {types.map((t) => (
+              <button
+                key={t}
+                onClick={() => setActiveType(t)}
+                className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all flex items-center gap-1 ${
+                  activeType === t
+                    ? 'bg-gray-800 text-white'
+                    : 'bg-gray-50 text-gray-500 border border-gray-200 hover:bg-gray-100'
+                }`}
               >
-                <div className="h-1.5" style={{ backgroundColor: res.typeColor }} />
-                <div className="p-6 flex flex-col flex-1">
-                  <div className="flex items-start justify-between mb-4">
-                    <span className="text-3xl">{res.icon}</span>
-                    <div className="flex flex-col items-end gap-2">
-                      <span
-                        className="text-xs font-bold px-2.5 py-1 rounded-full"
-                        style={{ backgroundColor: `${res.tagColor}15`, color: res.tagColor }}
-                      >
-                        {res.tag}
-                      </span>
-                      <span
-                        className="text-xs font-semibold px-2.5 py-1 rounded-full"
-                        style={{ backgroundColor: `${res.typeColor}15`, color: res.typeColor }}
-                      >
-                        {res.type}
-                      </span>
-                    </div>
-                  </div>
-
-                  <h3 className="font-bold text-gray-900 mb-2 leading-snug">{res.title}</h3>
-                  <p className="text-sm text-gray-500 leading-relaxed flex-1">{res.description}</p>
-
-                  <div className="flex items-center justify-between mt-5 pt-4 border-t border-gray-100">
-                    <div className="flex items-center gap-3 text-xs text-gray-400">
-                      <span className="bg-gray-50 px-2 py-1 rounded-lg">{res.level}</span>
-                      <span>{res.pages}</span>
-                    </div>
-                    <button className="text-xs font-semibold text-[#4285F4] hover:underline">
-                      Accéder →
-                    </button>
-                  </div>
-                </div>
-              </motion.div>
+                {t !== 'Tout' && typeIcons[t]} {t}
+              </button>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Contribute CTA */}
+      {/* Resources grid */}
+      <section className="py-12 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <p className="text-sm text-gray-400 mb-6">
+            {filtered.length} ressource{filtered.length > 1 ? 's' : ''} trouvée{filtered.length > 1 ? 's' : ''}
+          </p>
+          <AnimatePresence mode="popLayout">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+              {filtered.map((res, i) => (
+                <motion.div
+                  key={`${res.title}`}
+                  layout
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.25, delay: i * 0.04 }}
+                  className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all hover:-translate-y-1 flex flex-col overflow-hidden"
+                >
+                  <div className="h-1" style={{ backgroundColor: res.typeColor }} />
+                  <div className="p-5 flex flex-col flex-1">
+                    <div className="flex items-start justify-between mb-3">
+                      <span className="text-2xl">{res.icon}</span>
+                      <div className="flex flex-col items-end gap-1.5">
+                        <span
+                          className="text-[10px] font-bold px-2 py-0.5 rounded-full"
+                          style={{ backgroundColor: `${res.tagColor}15`, color: res.tagColor }}
+                        >
+                          {res.tag}
+                        </span>
+                        <span
+                          className="text-[10px] font-semibold px-2 py-0.5 rounded-full"
+                          style={{ backgroundColor: `${res.typeColor}15`, color: res.typeColor }}
+                        >
+                          {res.type}
+                        </span>
+                      </div>
+                    </div>
+
+                    <h3 className="font-bold text-gray-900 text-sm mb-2 leading-snug">{res.title}</h3>
+                    <p className="text-xs text-gray-500 leading-relaxed flex-1">{res.description}</p>
+
+                    <div className="flex items-center justify-between mt-4 pt-3 border-t border-gray-100">
+                      <div className="flex items-center gap-2 text-xs text-gray-400">
+                        <span className="bg-gray-50 px-2 py-0.5 rounded-md">{res.level}</span>
+                        <span>{res.meta}</span>
+                      </div>
+                      <button className="text-xs font-bold text-[#4285F4] hover:underline">
+                        Accéder →
+                      </button>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </AnimatePresence>
+        </div>
+      </section>
+
+      {/* Contribute */}
       <section className="py-16 bg-white">
         <div className="max-w-3xl mx-auto px-4 text-center">
           <div className="text-4xl mb-4">🤝</div>
           <h2 className="text-2xl font-black text-gray-900 mb-3">Tu veux contribuer ?</h2>
           <p className="text-gray-500 mb-6">
-            D.C.D est fondée par des étudiants pour des étudiants. Tu peux proposer des ressources, des exercices ou des tutoriels à partager avec la communauté.
+            D.C.D est fondée par des étudiants pour des étudiants. Propose des ressources, des exercices ou des tutoriels à partager avec la communauté.
           </p>
-          <Button href="/contact" color="green">
-            Proposer une ressource
-          </Button>
+          <Button href="/contact" color="green">Proposer une ressource</Button>
         </div>
       </section>
     </>
