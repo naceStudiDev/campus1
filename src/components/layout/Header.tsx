@@ -9,6 +9,8 @@ import Button from '@/components/ui/Button'
 const navLinks = [
   { label: 'Accueil', href: '/' },
   { label: 'Formations', href: '/formations' },
+  { label: 'Bibliothèque', href: '/bibliotheque' },
+  { label: 'Forum', href: '/forum' },
   { label: 'Comment ça marche', href: '/comment-ca-marche' },
   { label: 'Contact', href: '/contact' },
 ]

@@ -5,6 +5,8 @@ const links = {
   navigation: [
     { label: 'Accueil', href: '/' },
     { label: 'Formations', href: '/formations' },
+    { label: 'Bibliothèque', href: '/bibliotheque' },
+    { label: 'Forum', href: '/forum' },
     { label: 'Comment ça marche', href: '/comment-ca-marche' },
     { label: 'Inscription', href: '/inscription' },
     { label: 'Contact', href: '/contact' },

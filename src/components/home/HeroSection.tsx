@@ -68,16 +68,15 @@ export default function HeroSection() {
               Cours disponibles maintenant
             </div>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight text-gray-900 mb-6">
-              Apprends à coder{' '}
-              <span style={{ color: '#4285F4' }}>en ligne</span>,{' '}
-              <span style={{ color: '#EA4335' }}>depuis</span>{' '}
-              <span style={{ color: '#34A853' }}>l&apos;Algérie</span>
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight text-gray-900 mb-4">
+              Together we go{' '}
+              <span style={{ color: '#4285F4' }}>Further</span>
             </h1>
 
             <p className="text-lg text-gray-500 mb-8 leading-relaxed max-w-lg">
-              Des cours en direct via <strong>Google Meet</strong>, des professeurs disponibles,
-              un suivi personnalisé — tout ça pour toi, où que tu sois en Algérie.
+              Rejoignez <strong>Digital Campus Dz</strong>, l&apos;école fondée par des étudiants pour des étudiants.
+              Nous proposons des cours innovants en <strong>informatique, digital et marketing</strong> pour vous préparer
+              aux métiers de demain avec des méthodes pédagogiques uniques.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4">
