@@ -1,4 +1,4 @@
-const VALID_FORMATIONS = ['python', 'dev-web', 'django', 'data-science', 'sql', 'cybersecurite', 'c-language', 'architecture-machine', 'marketing-digital']
+const VALID_FORMATIONS = ['python', 'dev-web', 'algo-1', 'sql', 'cybersecurite', 'c-language', 'architecture-machine', 'algo-2', 'marketing-digital']
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const PHONE_REGEX = /^[0-9+\s()-]{9,15}$/
 
