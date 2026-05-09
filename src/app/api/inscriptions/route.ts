@@ -1,21 +1,26 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { supabaseAdmin } from '@/lib/supabase'
+import { supabase, supabaseAdmin } from '@/lib/supabase'
+import { verifySessionToken } from '@/lib/auth'
+import { validateInscription } from '@/lib/validation'
 
 export async function POST(req: NextRequest) {
   const body = await req.json()
-  const { prenom, nom, email, telephone, formation, message } = body
 
-  if (!prenom || !nom || !email || !telephone || !formation) {
-    return NextResponse.json({ error: 'Champs obligatoires manquants' }, { status: 400 })
+  const errors = validateInscription(body)
+  if (errors.length > 0) {
+    return NextResponse.json({ error: errors[0].message }, { status: 400 })
   }
 
-  const { error } = await supabaseAdmin.from('inscriptions').insert({
-    prenom,
-    nom,
-    email,
-    telephone,
+  const { prenom, nom, email, telephone, formation, message } = body
+
+  // Utilise la clé publique + RLS pour les inscriptions
+  const { error } = await supabase.from('inscriptions').insert({
+    prenom: prenom.trim(),
+    nom: nom.trim(),
+    email: email.trim().toLowerCase(),
+    telephone: telephone.trim(),
     formation,
-    message: message || null,
+    message: message?.trim() || null,
     statut: 'nouveau',
   })
 
@@ -28,9 +33,9 @@ export async function POST(req: NextRequest) {
 }
 
 export async function GET(req: NextRequest) {
-  const session = req.cookies.get('admin_session')
+  const token = req.cookies.get('admin_session')?.value
 
-  if (session?.value !== process.env.ADMIN_PASSWORD) {
+  if (!token || !verifySessionToken(token)) {
     return NextResponse.json({ error: 'Non autorisé' }, { status: 401 })
   }
 
