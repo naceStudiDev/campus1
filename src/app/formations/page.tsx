@@ -1,5 +1,5 @@
 import { formations } from '@/data/formations'
-import TiltCard from '@/components/ui/TiltCard'
+import CourseCard from '@/components/formations/CourseCard'
 import Link from 'next/link'
 import { BookOpen, ArrowRight, MessageCircle } from 'lucide-react'
 import type { Metadata } from 'next'
@@ -35,12 +35,9 @@ export default function FormationsPage() {
       {/* Formations grid */}
       <section className="py-16 bg-dark-bg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
-            style={{ perspective: '1400px' }}
-          >
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {formations.map((formation, i) => (
-              <TiltCard key={formation.id} formation={formation} index={i} />
+              <CourseCard key={formation.id} formation={formation} index={i} />
             ))}
           </div>
         </div>
