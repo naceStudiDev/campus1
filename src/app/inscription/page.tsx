@@ -1,4 +1,5 @@
 import InscriptionForm from '@/components/forms/InscriptionForm'
+import { ClipboardList, GraduationCap, Video, Flag } from 'lucide-react'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -6,39 +7,48 @@ export const metadata: Metadata = {
   description: "Inscris-toi à Digital Campus Dz et commence ta formation en ligne dès aujourd'hui.",
 }
 
+const reassurance = [
+  { Icon: GraduationCap, label: 'Premier cours gratuit' },
+  { Icon: Video, label: 'Via Google Meet' },
+  { Icon: Flag, label: 'École algérienne' },
+]
+
 export default function InscriptionPage() {
   return (
     <>
-      <section className="pt-32 pb-8 bg-gradient-to-br from-gray-50 to-white">
-        <div className="max-w-2xl mx-auto px-4 sm:px-6 text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#4285F4]/10 rounded-full text-[#4285F4] text-sm font-semibold mb-6">
-            📝 Inscription
+      {/* Hero */}
+      <section className="pt-32 pb-8 bg-dark-bg relative overflow-hidden">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[300px] bg-primary/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="max-w-2xl mx-auto px-4 sm:px-6 text-center relative z-10">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 border border-primary/20 rounded-full text-primary-light text-sm font-semibold mb-6">
+            <ClipboardList className="w-4 h-4" />
+            Inscription
           </div>
-          <h1 className="text-4xl md:text-5xl font-black text-gray-900 mb-4">
+          <h1 className="font-heading text-4xl md:text-5xl font-bold text-slate-100 mb-4">
             Rejoins D.C.D
           </h1>
-          <p className="text-gray-500 text-lg mb-2">
+          <p className="text-slate-400 text-lg">
             Remplis ce formulaire et on te recontacte dans les 24h.
           </p>
         </div>
       </section>
 
-      <section className="py-12 bg-white">
+      <section className="py-12 bg-dark-bg">
         <div className="max-w-2xl mx-auto px-4 sm:px-6">
-          <div className="bg-white rounded-3xl border border-gray-100 shadow-lg p-8 md:p-10">
+          <div className="bg-dark-card rounded-2xl border border-white/[0.07] p-8 md:p-10">
             <InscriptionForm />
           </div>
 
           {/* Reassurance */}
           <div className="grid grid-cols-3 gap-4 mt-8">
-            {[
-              { icon: '🎓', label: 'Premier cours gratuit' },
-              { icon: '📹', label: 'Via Google Meet' },
-              { icon: '🇩🇿', label: 'École algérienne' },
-            ].map((item) => (
-              <div key={item.label} className="text-center bg-gray-50 rounded-2xl p-4">
-                <div className="text-2xl mb-2">{item.icon}</div>
-                <p className="text-xs text-gray-600 font-medium">{item.label}</p>
+            {reassurance.map(({ Icon, label }) => (
+              <div key={label} className="text-center bg-dark-card border border-white/[0.07] rounded-2xl p-4">
+                <div className="flex items-center justify-center mb-2">
+                  <div className="w-10 h-10 bg-primary/10 border border-primary/20 rounded-xl flex items-center justify-center">
+                    <Icon className="w-5 h-5 text-primary-light" />
+                  </div>
+                </div>
+                <p className="text-xs text-slate-400 font-medium">{label}</p>
               </div>
             ))}
           </div>

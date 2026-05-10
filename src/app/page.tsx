@@ -3,21 +3,10 @@ import BentoSection from '@/components/home/BentoSection'
 import StatsSection from '@/components/home/StatsSection'
 import Temoignages from '@/components/home/Temoignages'
 import FAQ from '@/components/home/FAQ'
+import TiltCard from '@/components/ui/TiltCard'
 import Link from 'next/link'
 import { formations } from '@/data/formations'
-import { Video, ArrowRight } from 'lucide-react'
-
-const FORMATION_ICONS: Record<string, string> = {
-  'python': '🐍',
-  'web': '🌐',
-  'algo1': '📐',
-  'sql': '🗄️',
-  'cyber': '🔒',
-  'c': '⚡',
-  'archi': '🖥️',
-  'algo2': '🧮',
-  'marketing': '📈',
-}
+import { Video, ArrowRight, Target, Film, Users, MessageCircle } from 'lucide-react'
 
 export default function HomePage() {
   return (
@@ -48,33 +37,9 @@ export default function HomePage() {
             <p className="mt-4 text-slate-400 text-base">Des parcours complets adaptés aux étudiants algériens</p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
-            {formations.slice(0, 3).map((f) => (
-              <div
-                key={f.id}
-                className="group bg-dark-card rounded-2xl border border-white/[0.07] overflow-hidden hover:border-primary/20 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(0,0,0,0.5)]"
-              >
-                {/* Colored top border */}
-                <div className="h-0.5 w-full" style={{ backgroundColor: f.color }} />
-                <div className="p-6">
-                  <div className="text-3xl mb-4">{f.icon}</div>
-                  <h3 className="font-heading text-xl font-semibold text-slate-100 mb-2 line-clamp-1">{f.title}</h3>
-                  <p className="text-sm text-slate-400 mb-5 line-clamp-2">{f.description}</p>
-                  <div className="flex items-center justify-between">
-                    <span
-                      className="text-xs font-semibold px-3 py-1 rounded-full border"
-                      style={{
-                        backgroundColor: `${f.color}18`,
-                        color: f.color,
-                        borderColor: `${f.color}30`,
-                      }}
-                    >
-                      {f.level}
-                    </span>
-                    <span className="text-xs text-slate-500">{f.duration}</span>
-                  </div>
-                </div>
-              </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-10" style={{ perspective: '1200px' }}>
+            {formations.slice(0, 3).map((f, i) => (
+              <TiltCard key={f.id} formation={f} index={i} />
             ))}
           </div>
 
@@ -94,8 +59,8 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="relative bg-gradient-to-br from-[#0D0821] via-[#0D1117] to-[#080B14] rounded-3xl p-10 md:p-16 overflow-hidden border border-white/[0.06]">
             {/* Glow blobs */}
-            <div className="absolute top-0 right-0 w-64 h-64 bg-google-blue/8 rounded-full blur-3xl pointer-events-none" />
-            <div className="absolute bottom-0 left-0 w-64 h-64 bg-google-green/8 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute top-0 right-0 w-64 h-64 bg-primary/8 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-64 h-64 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none" />
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
 
             <div className="relative flex flex-col md:flex-row items-center gap-10">
@@ -129,14 +94,16 @@ export default function HomePage() {
               {/* Visual side */}
               <div className="flex-shrink-0 grid grid-cols-2 gap-3 w-full max-w-xs">
                 {[
-                  { icon: '🎯', label: 'Questions en direct' },
-                  { icon: '📹', label: 'Cours enregistrés' },
-                  { icon: '🤝', label: 'Sessions ciblées' },
-                  { icon: '💬', label: 'Communauté active' },
-                ].map((item) => (
-                  <div key={item.label} className="bg-white/[0.04] border border-white/[0.06] rounded-xl p-4 text-center">
-                    <div className="text-2xl mb-2">{item.icon}</div>
-                    <p className="text-xs text-slate-400 font-medium">{item.label}</p>
+                  { Icon: Target, label: 'Questions en direct' },
+                  { Icon: Film, label: 'Cours enregistrés' },
+                  { Icon: Users, label: 'Sessions ciblées' },
+                  { Icon: MessageCircle, label: 'Communauté active' },
+                ].map(({ Icon, label }) => (
+                  <div key={label} className="bg-white/[0.04] border border-white/[0.06] rounded-xl p-4 text-center">
+                    <div className="flex items-center justify-center mb-2">
+                      <Icon className="w-6 h-6 text-primary-light" />
+                    </div>
+                    <p className="text-xs text-slate-400 font-medium">{label}</p>
                   </div>
                 ))}
               </div>

@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { Video, ChevronRight } from 'lucide-react'
+import AuroraBackground from '@/components/ui/AuroraBackground'
 
 const codeLines = [
   { text: "hesitation = perte = int('0')", color: 'text-violet-400' },
@@ -53,10 +54,9 @@ export default function HeroSection() {
   }, [currentLine, currentChar])
 
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden bg-dark-bg pt-20">
-
-      {/* Grid background */}
-      <div className="absolute inset-0 bg-grid-dark bg-grid opacity-100 pointer-events-none" />
+    <AuroraBackground className="relative min-h-screen bg-dark-bg pt-20">
+      {/* Grid background — subtle over the aurora */}
+      <div className="absolute inset-0 bg-grid-dark opacity-40 pointer-events-none" />
 
       {/* Radial glow — top right */}
       <div className="absolute top-0 right-0 w-[700px] h-[700px] pointer-events-none">
@@ -67,8 +67,8 @@ export default function HeroSection() {
         <div className="absolute inset-0 rounded-full bg-gradient-radial from-accent/10 via-accent/5 to-transparent blur-3xl" />
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 w-full relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_480px] gap-16 items-center">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 w-full relative z-10 flex items-center min-h-screen">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_480px] gap-16 items-center w-full">
 
           {/* Left — Text */}
           <div className="flex flex-col">
@@ -218,6 +218,6 @@ export default function HeroSection() {
           </motion.div>
         </div>
       </div>
-    </section>
+    </AuroraBackground>
   )
 }

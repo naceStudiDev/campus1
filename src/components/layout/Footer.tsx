@@ -1,5 +1,7 @@
 import Link from 'next/link'
 import DCDLogo from '@/components/ui/DCDLogo'
+import { MapPin, Mail, Phone, Clock } from 'lucide-react'
+import { FacebookIcon, InstagramIcon, LinkedinIcon, YoutubeIcon, TelegramIcon } from '@/components/ui/SocialIcons'
 
 const links = {
   navigation: [
@@ -19,13 +21,20 @@ const links = {
     { label: 'Mobile Flutter', href: '/formations' },
   ],
   social: [
-    { label: 'Facebook', href: '#', icon: '📘' },
-    { label: 'Instagram', href: '#', icon: '📷' },
-    { label: 'LinkedIn', href: '#', icon: '💼' },
-    { label: 'YouTube', href: '#', icon: '▶️' },
-    { label: 'Telegram', href: '#', icon: '✈️' },
+    { label: 'Facebook', Icon: FacebookIcon, href: '#' },
+    { label: 'Instagram', Icon: InstagramIcon, href: '#' },
+    { label: 'LinkedIn', Icon: LinkedinIcon, href: '#' },
+    { label: 'YouTube', Icon: YoutubeIcon, href: '#' },
+    { label: 'Telegram', Icon: TelegramIcon, href: '#' },
   ],
 }
+
+const contactInfo = [
+  { Icon: MapPin, value: 'Algérie' },
+  { Icon: Mail, value: 'contact@digitalcampusdz.com' },
+  { Icon: Phone, value: '+213 (0) XX XX XX XX' },
+  { Icon: Clock, value: 'Lun–Ven : 09h – 18h' },
+]
 
 export default function Footer() {
   return (
@@ -39,14 +48,14 @@ export default function Footer() {
               Digital Campus Dz — Votre école d&apos;e-learning algérienne. Des cours en ligne via Google Meet, animés par des professeurs disponibles et passionnés.
             </p>
             <div className="flex gap-2 mt-6">
-              {links.social.map((s) => (
+              {links.social.map(({ label, Icon, href }) => (
                 <a
-                  key={s.label}
-                  href={s.href}
-                  aria-label={s.label}
-                  className="w-9 h-9 bg-white/[0.05] hover:bg-primary/15 hover:text-primary-light border border-white/[0.06] rounded-lg flex items-center justify-center text-sm transition-all duration-200"
+                  key={label}
+                  href={href}
+                  aria-label={label}
+                  className="w-9 h-9 bg-white/[0.05] hover:bg-primary/15 hover:text-primary-light border border-white/[0.06] rounded-lg flex items-center justify-center transition-all duration-200"
                 >
-                  {s.icon}
+                  <Icon size={16} />
                 </a>
               ))}
             </div>
@@ -57,7 +66,7 @@ export default function Footer() {
             <h3 className="text-slate-200 font-semibold mb-4 text-sm uppercase tracking-wider">Navigation</h3>
             <ul className="space-y-2">
               {links.navigation.map((l) => (
-                <li key={l.href}>
+                <li key={l.href + l.label}>
                   <Link href={l.href} className="text-sm text-slate-500 hover:text-slate-200 transition-colors">
                     {l.label}
                   </Link>
@@ -83,19 +92,13 @@ export default function Footer() {
           {/* Contact */}
           <div>
             <h3 className="text-slate-200 font-semibold mb-4 text-sm uppercase tracking-wider">Contact</h3>
-            <ul className="space-y-3 text-sm text-slate-500">
-              <li className="flex items-center gap-2">
-                <span>📍</span> Algérie
-              </li>
-              <li className="flex items-center gap-2">
-                <span>📧</span> contact@digitalcampusdz.com
-              </li>
-              <li className="flex items-center gap-2">
-                <span>📱</span> +213 (0) XX XX XX XX
-              </li>
-              <li className="flex items-center gap-2">
-                <span>🕐</span> Lun–Ven : 09h – 18h
-              </li>
+            <ul className="space-y-3">
+              {contactInfo.map(({ Icon, value }) => (
+                <li key={value} className="flex items-center gap-2 text-sm text-slate-500">
+                  <Icon className="w-4 h-4 flex-shrink-0 text-slate-600" />
+                  <span>{value}</span>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
