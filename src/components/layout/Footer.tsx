@@ -16,9 +16,12 @@ const links = {
   formations: [
     { label: 'Python', href: '/formations' },
     { label: 'Développement Web', href: '/formations' },
-    { label: 'Django & Backend', href: '/formations' },
-    { label: 'Data Science', href: '/formations' },
-    { label: 'Mobile Flutter', href: '/formations' },
+    { label: 'Algorithmique 1 & 2', href: '/formations' },
+    { label: 'Bases de données SQL', href: '/formations' },
+    { label: 'Cybersécurité', href: '/formations' },
+    { label: 'Langage C', href: '/formations' },
+    { label: 'Architecture Machine', href: '/formations' },
+    { label: 'Marketing Digital', href: '/formations' },
   ],
   social: [
     { label: 'Facebook', Icon: FacebookIcon, href: '#' },
