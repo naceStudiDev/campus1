@@ -17,7 +17,7 @@ export default function HomePage() {
       <FAQ />
 
       {/* Formations aperçu */}
-      <section className="py-24 bg-gray-50">
+      <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionTitle
             title="Nos formations"
@@ -51,7 +51,7 @@ export default function HomePage() {
       </section>
 
       {/* Google Meet section */}
-      <section className="py-24 bg-white">
+      <section className="py-24 bg-[#F4F3EF]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-3xl p-10 md:p-16 text-center text-white overflow-hidden relative">
             <div className="absolute top-0 right-0 w-64 h-64 bg-[#4285F4]/10 rounded-full blur-3xl" />
@@ -80,11 +80,12 @@ export default function HomePage() {
       </section>
 
       {/* CTA final */}
-      <section className="py-20 bg-[#4285F4]">
+      <section className="py-20 bg-[#0F172A]">
         <div className="max-w-4xl mx-auto px-4 text-center text-white">
-          <h2 className="text-3xl md:text-4xl font-black mb-4">Prêt à commencer ?</h2>
-          <p className="text-blue-100 text-lg mb-8">Inscris-toi gratuitement et assiste à ton premier cours dès aujourd&apos;hui.</p>
-          <Button href="/inscription" variant="secondary" className="text-base px-10 py-4 text-gray-900">
+          <p className="text-xs font-semibold uppercase tracking-widest text-slate-500 mb-4">Rejoins-nous</p>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 tracking-tight">Prêt à commencer ?</h2>
+          <p className="text-slate-400 text-base mb-10">Inscris-toi gratuitement et assiste à ton premier cours dès aujourd&apos;hui.</p>
+          <Button href="/inscription" color="blue" className="text-sm px-8 py-3.5">
             S&apos;inscrire gratuitement
           </Button>
         </div>

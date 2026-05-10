@@ -23,7 +23,7 @@ export default function DCDLogo({ size = 'md', showName = true }: DCDLogoProps) 
       <div
         className="flex items-center justify-center rounded-xl flex-shrink-0 transition-transform group-hover:scale-105"
         style={{
-          backgroundColor: '#d4f5e2',
+          backgroundColor: '#d1fae5',
           width: s.img + 14,
           height: s.img + 14,
           padding: 7,
@@ -50,7 +50,7 @@ export default function DCDLogo({ size = 'md', showName = true }: DCDLogoProps) 
           </span>
           <span
             className={`font-bold tracking-widest uppercase ${s.sub}`}
-            style={{ color: '#34A853', fontFamily: 'Roboto, sans-serif', letterSpacing: '0.15em' }}
+            style={{ color: '#059669', fontFamily: 'Roboto, sans-serif', letterSpacing: '0.15em' }}
           >
             Dz
           </span>

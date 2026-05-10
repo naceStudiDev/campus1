@@ -10,7 +10,7 @@ function ChevronIcon({ open }: { open: boolean }) {
     <motion.svg
       animate={{ rotate: open ? 180 : 0 }}
       transition={{ duration: 0.25 }}
-      className="w-5 h-5 flex-shrink-0 text-gray-400"
+      className="w-4 h-4 flex-shrink-0 text-gray-400"
       fill="none"
       viewBox="0 0 24 24"
       stroke="currentColor"
@@ -34,7 +34,7 @@ export default function FAQ() {
           accent="blue"
         />
 
-        <div className="space-y-3">
+        <div className="space-y-2">
           {faqItems.map((item, i) => {
             const isOpen = openIndex === i
             const itemId = `faq-answer-${i}`
@@ -47,35 +47,32 @@ export default function FAQ() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-40px' }}
                 transition={{ duration: 0.35, delay: i * 0.07 }}
-                className={`rounded-2xl border transition-colors duration-200 overflow-hidden ${
+                className={`rounded-xl border transition-all duration-200 overflow-hidden ${
                   isOpen
-                    ? 'border-[#4285F4]/30 bg-[#4285F4]/[0.03]'
-                    : 'border-gray-100 bg-gray-50'
+                    ? 'border-[#2563EB]/25 bg-white shadow-sm'
+                    : 'border-gray-100 bg-[#F4F3EF] hover:border-gray-200'
                 }`}
               >
-                {/* Trigger */}
                 <button
                   id={triggerId}
                   aria-expanded={isOpen}
                   aria-controls={itemId}
                   onClick={() => setOpenIndex(isOpen ? -1 : i)}
-                  className="w-full flex items-center justify-between gap-4 px-6 py-5 text-left"
+                  className="w-full flex items-center justify-between gap-4 px-5 py-4 text-left"
                 >
                   <div className="flex items-center gap-3 min-w-0">
-                    {/* Left accent bar */}
                     <div
-                      className={`w-1 h-5 rounded-full flex-shrink-0 transition-colors duration-200 ${
-                        isOpen ? 'bg-[#4285F4]' : 'bg-transparent'
+                      className={`w-0.5 h-4 rounded-full flex-shrink-0 transition-colors duration-200 ${
+                        isOpen ? 'bg-[#2563EB]' : 'bg-gray-200'
                       }`}
                     />
-                    <span className="font-semibold text-gray-900 text-sm sm:text-base leading-snug">
+                    <span className="font-medium text-gray-900 text-sm leading-snug">
                       {item.question}
                     </span>
                   </div>
                   <ChevronIcon open={isOpen} />
                 </button>
 
-                {/* Answer */}
                 <AnimatePresence initial={false}>
                   {isOpen && (
                     <motion.div
@@ -86,10 +83,10 @@ export default function FAQ() {
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: 'auto', opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+                      transition={{ duration: 0.28, ease: [0.4, 0, 0.2, 1] }}
                       className="overflow-hidden"
                     >
-                      <p className="px-6 pb-5 pl-[3.25rem] text-sm text-gray-600 leading-relaxed">
+                      <p className="px-5 pb-5 pl-11 text-sm text-gray-500 leading-relaxed">
                         {item.reponse}
                       </p>
                     </motion.div>

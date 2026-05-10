@@ -9,6 +9,16 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        surface: '#F4F3EF',
+        brand: {
+          blue: '#2563EB',
+          'blue-dark': '#1D4ED8',
+          green: '#059669',
+          'green-dark': '#047857',
+          red: '#DC2626',
+          amber: '#D97706',
+        },
+        // kept for formation cards that reference formation.color
         google: {
           blue: '#4285F4',
           red: '#EA4335',
@@ -18,6 +28,7 @@ const config: Config = {
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
+        heading: ['Space Grotesk', 'system-ui', 'sans-serif'],
         mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
       },
       animation: {

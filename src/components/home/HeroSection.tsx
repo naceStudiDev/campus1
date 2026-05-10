@@ -26,9 +26,7 @@ export default function HeroSection() {
       setDone(true)
       return
     }
-
     const line = codeLines[currentLine].text
-
     if (currentChar < line.length) {
       const timeout = setTimeout(() => {
         setDisplayedLines((prev) => {
@@ -49,41 +47,40 @@ export default function HeroSection() {
   }, [currentLine, currentChar])
 
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-gray-50 to-white pt-20">
-      {/* Background decorative circles */}
-      <div className="absolute top-20 right-0 w-72 h-72 bg-[#4285F4]/5 rounded-full blur-3xl" />
-      <div className="absolute bottom-20 left-0 w-96 h-96 bg-[#34A853]/5 rounded-full blur-3xl" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-[#EA4335]/5 rounded-full blur-3xl" />
+    <section className="relative min-h-screen flex items-center overflow-hidden bg-white pt-20">
+      {/* Subtle background texture */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_#eff6ff_0%,_transparent_60%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_#ecfdf5_0%,_transparent_60%)]" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 w-full">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 w-full relative">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+
           {/* Left — Text */}
           <motion.div
             initial={{ opacity: 0, x: -40 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7, ease: 'easeOut' }}
           >
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#4285F4]/10 rounded-full text-[#4285F4] text-sm font-semibold mb-6">
-              <span className="w-2 h-2 bg-[#34A853] rounded-full animate-pulse" />
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-[#2563EB]/8 border border-[#2563EB]/20 rounded-full text-[#2563EB] text-xs font-semibold mb-8 tracking-wide">
+              <span className="w-1.5 h-1.5 bg-[#059669] rounded-full animate-pulse" />
               Cours disponibles maintenant
             </div>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight text-gray-900 mb-4">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.08] text-gray-900 mb-6 tracking-tight">
               Together we go{' '}
-              <span style={{ color: '#4285F4' }}>Further</span>
+              <span className="text-[#2563EB]">Further</span>
             </h1>
 
-            <p className="text-lg text-gray-500 mb-8 leading-relaxed max-w-lg">
-              Rejoignez <strong>Digital Campus Dz</strong>, l&apos;école fondée par des étudiants pour des étudiants.
-              Nous proposons des cours innovants en <strong>informatique, digital et marketing</strong> pour vous préparer
-              aux métiers de demain avec des méthodes pédagogiques uniques.
+            <p className="text-lg text-gray-500 mb-10 leading-relaxed max-w-lg font-normal">
+              Rejoignez <span className="font-semibold text-gray-700">Digital Campus Dz</span>, l&apos;école fondée par des étudiants pour des étudiants.
+              Cours en ligne en <span className="font-semibold text-gray-700">informatique, digital et marketing</span> — en direct via Google Meet.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Button href="/inscription" color="blue" className="text-base px-8 py-4">
+            <div className="flex flex-col sm:flex-row gap-3">
+              <Button href="/inscription" color="blue" className="text-sm px-7 py-3.5">
                 Commencer maintenant →
               </Button>
-              <Button href="/formations" variant="outline" color="blue" className="text-base px-8 py-4">
+              <Button href="/formations" variant="outline" color="blue" className="text-sm px-7 py-3.5">
                 Voir les formations
               </Button>
             </div>
@@ -91,13 +88,13 @@ export default function HeroSection() {
             {/* Stats */}
             <div className="grid grid-cols-3 gap-6 mt-12 pt-8 border-t border-gray-100">
               {[
-                { value: '6+', label: 'Formations', color: '#4285F4' },
-                { value: '100%', label: 'En ligne', color: '#EA4335' },
-                { value: '24/7', label: 'Support', color: '#34A853' },
+                { value: '9+', label: 'Formations', color: '#2563EB' },
+                { value: '100%', label: 'En ligne', color: '#DC2626' },
+                { value: '24/7', label: 'Support', color: '#059669' },
               ].map((stat) => (
                 <div key={stat.label}>
-                  <p className="text-3xl font-black" style={{ color: stat.color }}>{stat.value}</p>
-                  <p className="text-sm text-gray-500 mt-1">{stat.label}</p>
+                  <p className="text-3xl font-bold tracking-tight" style={{ color: stat.color }}>{stat.value}</p>
+                  <p className="text-xs text-gray-400 mt-1 font-medium uppercase tracking-wider">{stat.label}</p>
                 </div>
               ))}
             </div>
@@ -109,23 +106,22 @@ export default function HeroSection() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7, delay: 0.2, ease: 'easeOut' }}
           >
-            <div className="rounded-2xl overflow-hidden shadow-2xl border border-gray-200">
+            <div className="rounded-2xl overflow-hidden shadow-xl border border-gray-200/80 ring-1 ring-black/5">
               {/* Terminal header */}
               <div className="bg-gray-800 px-4 py-3 flex items-center gap-2">
                 <div className="flex gap-1.5">
-                  <div className="w-3 h-3 rounded-full bg-[#EA4335]" />
-                  <div className="w-3 h-3 rounded-full bg-[#FBBC05]" />
-                  <div className="w-3 h-3 rounded-full bg-[#34A853]" />
+                  <div className="w-3 h-3 rounded-full bg-[#DC2626]" />
+                  <div className="w-3 h-3 rounded-full bg-[#D97706]" />
+                  <div className="w-3 h-3 rounded-full bg-[#059669]" />
                 </div>
                 <div className="flex-1 text-center">
                   <span className="text-gray-400 text-xs font-mono">digital_campus_dz.py</span>
                 </div>
               </div>
-
               {/* Terminal body */}
-              <div className="bg-gray-900 p-6 font-mono text-sm min-h-[300px]">
+              <div className="bg-[#0D1117] p-6 font-mono text-sm min-h-[300px]">
                 <div className="text-gray-500 mb-4 text-xs">
-                  <span className="text-[#34A853]">▶</span> python digital_campus_dz.py
+                  <span className="text-[#059669]">▶</span> python digital_campus_dz.py
                 </div>
                 {codeLines.map((line, i) => (
                   <div key={i} className="leading-7">
@@ -141,7 +137,7 @@ export default function HeroSection() {
                   <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    className="mt-4 text-[#34A853] text-xs"
+                    className="mt-4 text-[#059669] text-xs"
                   >
                     <span className="mr-2">✓</span>Programme exécuté avec succès. Rejoins D.C.D dès aujourd&apos;hui !
                   </motion.div>
@@ -156,14 +152,14 @@ export default function HeroSection() {
               transition={{ delay: 1.5 }}
               className="mt-4 flex items-center gap-3 bg-white border border-gray-200 rounded-xl px-4 py-3 shadow-sm"
             >
-              <div className="w-10 h-10 bg-[#4285F4]/10 rounded-lg flex items-center justify-center text-xl">
+              <div className="w-10 h-10 bg-[#2563EB]/8 rounded-xl flex items-center justify-center text-xl">
                 📹
               </div>
               <div>
                 <p className="text-sm font-semibold text-gray-800">Cours via Google Meet</p>
-                <p className="text-xs text-gray-500">Sessions en direct, interactives et enregistrées</p>
+                <p className="text-xs text-gray-400">Sessions en direct, interactives et enregistrées</p>
               </div>
-              <div className="ml-auto w-3 h-3 bg-[#34A853] rounded-full animate-pulse" />
+              <div className="ml-auto w-2.5 h-2.5 bg-[#059669] rounded-full animate-pulse" />
             </motion.div>
           </motion.div>
         </div>

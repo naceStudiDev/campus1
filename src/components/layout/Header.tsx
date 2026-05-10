@@ -32,8 +32,8 @@ export default function Header() {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
-          ? 'bg-white/95 backdrop-blur-md shadow-sm border-b border-gray-100'
-          : 'bg-white'
+          ? 'bg-white/90 backdrop-blur-xl shadow-sm border-b border-gray-200/60'
+          : 'bg-white/70 backdrop-blur-md'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -42,24 +42,24 @@ export default function Header() {
           <DCDLogo size="md" />
 
           {/* Desktop nav */}
-          <nav className="hidden lg:flex items-center gap-1">
+          <nav className="hidden lg:flex items-center gap-0.5">
             {navLinks.map((link) => {
               const isActive = pathname === link.href
               return (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`relative px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                  className={`relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
                     isActive
-                      ? 'text-[#34A853]'
-                      : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                      ? 'text-[#2563EB]'
+                      : 'text-gray-500 hover:text-gray-900 hover:bg-black/5'
                   }`}
                 >
                   {link.label}
                   {isActive && (
                     <motion.div
                       layoutId="nav-indicator"
-                      className="absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 w-4 rounded-full bg-[#34A853]"
+                      className="absolute bottom-1 left-1/2 -translate-x-1/2 h-0.5 w-4 rounded-full bg-[#2563EB]"
                     />
                   )}
                 </Link>
@@ -71,16 +71,15 @@ export default function Header() {
           <div className="hidden lg:flex items-center gap-3">
             <Link
               href="/inscription"
-              className="px-5 py-2.5 text-sm font-bold rounded-xl text-white transition-all duration-200 hover:shadow-lg hover:scale-105 active:scale-95"
-              style={{ background: 'linear-gradient(135deg, #34A853 0%, #2d8f47 100%)' }}
+              className="px-5 py-2.5 text-sm font-semibold rounded-xl text-white bg-[#2563EB] hover:bg-[#1D4ED8] transition-all duration-200 shadow-sm hover:shadow-md"
             >
-              S&apos;inscrire gratuitement
+              S&apos;inscrire
             </Link>
           </div>
 
           {/* Mobile menu button */}
           <button
-            className="lg:hidden p-2 rounded-xl text-gray-600 hover:bg-gray-100 transition-colors"
+            className="lg:hidden p-2 rounded-xl text-gray-500 hover:bg-black/5 transition-colors"
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label="Menu"
           >
@@ -101,7 +100,7 @@ export default function Header() {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.2 }}
-            className="lg:hidden bg-white border-t border-gray-100 shadow-lg overflow-hidden"
+            className="lg:hidden bg-white border-t border-gray-200/60 shadow-lg overflow-hidden"
           >
             <div className="px-4 py-4 flex flex-col gap-1">
               {navLinks.map((link) => {
@@ -112,8 +111,8 @@ export default function Header() {
                     href={link.href}
                     className={`px-4 py-3 rounded-xl font-medium text-sm transition-colors ${
                       isActive
-                        ? 'bg-[#34A853]/10 text-[#34A853] font-semibold'
-                        : 'text-gray-700 hover:bg-gray-50'
+                        ? 'bg-[#2563EB]/8 text-[#2563EB] font-semibold'
+                        : 'text-gray-600 hover:bg-black/5'
                     }`}
                   >
                     {link.label}
@@ -123,8 +122,7 @@ export default function Header() {
               <div className="pt-2 mt-2 border-t border-gray-100">
                 <Link
                   href="/inscription"
-                  className="block w-full text-center px-4 py-3 rounded-xl text-white font-bold text-sm"
-                  style={{ background: 'linear-gradient(135deg, #34A853 0%, #2d8f47 100%)' }}
+                  className="block w-full text-center px-4 py-3 rounded-xl text-white font-semibold text-sm bg-[#2563EB] hover:bg-[#1D4ED8] transition-colors"
                 >
                   S&apos;inscrire gratuitement
                 </Link>
