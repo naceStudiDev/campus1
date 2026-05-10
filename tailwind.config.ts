@@ -34,6 +34,13 @@ const config: Config = {
           green: '#34A853',
           yellow: '#FBBC05',
         },
+        // Vert Algérie — couleur identitaire, pages communauté (bibliothèque + forum)
+        algerie: {
+          DEFAULT: '#006233',
+          light:   '#00A854',
+          dark:    '#004D28',
+          glow:    'rgba(0,98,51,0.2)',
+        },
         // kept for backward compat (some pages use brand.*)
         brand: {
           blue: '#7C3AED',
@@ -82,6 +89,8 @@ const config: Config = {
         'glow-violet': '0 0 30px rgba(124,58,237,0.25)',
         'glow-violet-lg': '0 0 60px rgba(124,58,237,0.3)',
         'glow-amber': '0 0 30px rgba(245,158,11,0.2)',
+        'glow-algerie': '0 0 20px rgba(0,98,51,0.25), 0 0 60px rgba(0,98,51,0.12)',
+        'glow-algerie-lg': '0 0 40px rgba(0,98,51,0.35), 0 0 100px rgba(0,98,51,0.18)',
         'card-dark': '0 1px 40px rgba(0,0,0,0.4)',
       },
       backgroundImage: {

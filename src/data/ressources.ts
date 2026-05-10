@@ -55,7 +55,8 @@ export const resources: Resource[] = [
     type: 'Fiche', typeColor: '#FBBC05', icon: '📋',
     title: 'Cheatsheet CSS Flexbox & Grid',
     description: 'Toutes les propriétés Flexbox et Grid illustrées avec des exemples visuels. Le guide de référence indispensable.',
-    category: 'Dev Web', level: 'Débutant', meta: '3 pages', tag: 'Gratuit', tagColor: '#34A853',url:"https://github.com/naceStudiDev/campus-resources/raw/b135da44672ec2e39e38f6627ffd0ec6de6f39c4/Cheatsheet_CSS_Flexbox_Grid.pdf",
+    category: 'Dev Web', level: 'Débutant', meta: '3 pages', tag: 'Gratuit', tagColor: '#34A853',
+    url:"https://github.com/naceStudiDev/campus-resources/raw/b135da44672ec2e39e38f6627ffd0ec6de6f39c4/Cheatsheet_CSS_Flexbox_Grid.pdf",
   },
   {
     type: 'Guide', typeColor: '#34A853', icon: '🗺️',

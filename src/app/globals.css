@@ -87,3 +87,34 @@ h1, h2, h3, h4, h5, h6 {
     animation: none;
   }
 }
+
+/* Mesh gradient shader blobs */
+@keyframes mesh1 {
+  0%, 100% { transform: translate(0%, 0%) scale(1); }
+  33%       { transform: translate(15%, -10%) scale(1.1); }
+  66%       { transform: translate(-8%, 12%) scale(0.95); }
+}
+@keyframes mesh2 {
+  0%, 100% { transform: translate(0%, 0%) scale(1); }
+  40%       { transform: translate(-20%, 15%) scale(1.15); }
+  70%       { transform: translate(10%, -8%) scale(0.9); }
+}
+@keyframes mesh3 {
+  0%, 100% { transform: translate(0%, 0%) scale(1.05); }
+  50%       { transform: translate(12%, 10%) scale(0.95); }
+}
+.animate-mesh1 { animation: mesh1 18s ease-in-out infinite; }
+.animate-mesh2 { animation: mesh2 22s ease-in-out infinite; }
+.animate-mesh3 { animation: mesh3 15s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-mesh1, .animate-mesh2, .animate-mesh3 { animation: none; }
+}
+
+/* Gradient text — vert algérie → violet */
+.gradient-text-algerie {
+  background: linear-gradient(135deg, #00A854 0%, #7C3AED 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
