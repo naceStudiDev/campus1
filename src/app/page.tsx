@@ -1,93 +1,172 @@
 import HeroSection from '@/components/home/HeroSection'
-import PillarsSection from '@/components/home/PillarsSection'
+import BentoSection from '@/components/home/BentoSection'
 import StatsSection from '@/components/home/StatsSection'
 import Temoignages from '@/components/home/Temoignages'
 import FAQ from '@/components/home/FAQ'
-import Button from '@/components/ui/Button'
-import SectionTitle from '@/components/ui/SectionTitle'
+import Link from 'next/link'
 import { formations } from '@/data/formations'
+import { Video, ArrowRight } from 'lucide-react'
+
+const FORMATION_ICONS: Record<string, string> = {
+  'python': '🐍',
+  'web': '🌐',
+  'algo1': '📐',
+  'sql': '🗄️',
+  'cyber': '🔒',
+  'c': '⚡',
+  'archi': '🖥️',
+  'algo2': '🧮',
+  'marketing': '📈',
+}
 
 export default function HomePage() {
   return (
     <>
       <HeroSection />
-      <PillarsSection />
       <StatsSection />
+      <BentoSection />
       <Temoignages />
       <FAQ />
 
       {/* Formations aperçu */}
-      <section className="py-24 bg-white">
+      <section className="py-24 bg-dark-muted">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionTitle
-            title="Nos formations"
-            subtitle="Des parcours complets adaptés aux étudiants algériens"
-            accent="green"
-          />
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+          <div className="mb-14">
+            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-500 mb-4">Programmes</p>
+            <div className="flex items-end justify-between gap-4">
+              <h2 className="font-heading text-4xl sm:text-5xl font-bold text-slate-100 leading-tight">
+                Nos <span className="italic gradient-text-violet">formations</span>
+              </h2>
+              <Link
+                href="/formations"
+                className="hidden sm:inline-flex items-center gap-2 text-sm text-slate-400 hover:text-primary-light transition-colors group"
+              >
+                Toutes les formations
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </Link>
+            </div>
+            <p className="mt-4 text-slate-400 text-base">Des parcours complets adaptés aux étudiants algériens</p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
             {formations.slice(0, 3).map((f) => (
-              <div key={f.id} className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm hover:shadow-md transition-all hover:-translate-y-1">
-                <div className="text-3xl mb-4">{f.icon}</div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">{f.title}</h3>
-                <p className="text-sm text-gray-500 mb-4 line-clamp-2">{f.description}</p>
-                <div className="flex items-center justify-between">
-                  <span
-                    className="text-xs font-semibold px-3 py-1 rounded-full"
-                    style={{ backgroundColor: `${f.color}15`, color: f.color }}
-                  >
-                    {f.level}
-                  </span>
-                  <span className="text-xs text-gray-400">{f.duration}</span>
+              <div
+                key={f.id}
+                className="group bg-dark-card rounded-2xl border border-white/[0.07] overflow-hidden hover:border-primary/20 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(0,0,0,0.5)]"
+              >
+                {/* Colored top border */}
+                <div className="h-0.5 w-full" style={{ backgroundColor: f.color }} />
+                <div className="p-6">
+                  <div className="text-3xl mb-4">{f.icon}</div>
+                  <h3 className="font-heading text-xl font-semibold text-slate-100 mb-2 line-clamp-1">{f.title}</h3>
+                  <p className="text-sm text-slate-400 mb-5 line-clamp-2">{f.description}</p>
+                  <div className="flex items-center justify-between">
+                    <span
+                      className="text-xs font-semibold px-3 py-1 rounded-full border"
+                      style={{
+                        backgroundColor: `${f.color}18`,
+                        color: f.color,
+                        borderColor: `${f.color}30`,
+                      }}
+                    >
+                      {f.level}
+                    </span>
+                    <span className="text-xs text-slate-500">{f.duration}</span>
+                  </div>
                 </div>
               </div>
             ))}
           </div>
-          <div className="text-center">
-            <Button href="/formations" color="blue" variant="outline">
-              Voir toutes les formations →
-            </Button>
+
+          <div className="text-center sm:hidden">
+            <Link
+              href="/formations"
+              className="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-primary-light transition-colors"
+            >
+              Voir toutes les formations <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
         </div>
       </section>
 
       {/* Google Meet section */}
-      <section className="py-24 bg-[#F4F3EF]">
+      <section className="py-24 bg-dark-bg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-3xl p-10 md:p-16 text-center text-white overflow-hidden relative">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-[#4285F4]/10 rounded-full blur-3xl" />
-            <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#34A853]/10 rounded-full blur-3xl" />
-            <div className="relative">
-              <div className="text-5xl mb-6">📹</div>
-              <h2 className="text-3xl md:text-4xl font-black mb-4">
-                Tous nos cours via{' '}
-                <span style={{ color: '#4285F4' }}>G</span>
-                <span style={{ color: '#EA4335' }}>o</span>
-                <span style={{ color: '#FBBC05' }}>o</span>
-                <span style={{ color: '#4285F4' }}>g</span>
-                <span style={{ color: '#34A853' }}>l</span>
-                <span style={{ color: '#EA4335' }}>e</span>{' '}
-                Meet
-              </h2>
-              <p className="text-gray-400 text-lg max-w-2xl mx-auto mb-8">
-                Des sessions en direct, interactives, depuis chez toi. Pose tes questions en temps réel, partage ton écran, collabore avec tes camarades.
-              </p>
-              <Button href="/inscription" color="green" className="text-base px-8 py-4">
-                Rejoindre la prochaine session
-              </Button>
+          <div className="relative bg-gradient-to-br from-[#0D0821] via-[#0D1117] to-[#080B14] rounded-3xl p-10 md:p-16 overflow-hidden border border-white/[0.06]">
+            {/* Glow blobs */}
+            <div className="absolute top-0 right-0 w-64 h-64 bg-google-blue/8 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-64 h-64 bg-google-green/8 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
+
+            <div className="relative flex flex-col md:flex-row items-center gap-10">
+              {/* Text side */}
+              <div className="flex-1 text-center md:text-left">
+                <div className="inline-flex items-center justify-center w-12 h-12 bg-primary/10 rounded-2xl mb-6 border border-primary/20">
+                  <Video className="w-6 h-6 text-primary-light" />
+                </div>
+                <h2 className="font-heading text-3xl md:text-4xl font-bold text-slate-100 mb-4">
+                  Tous nos cours via{' '}
+                  <span className="text-[#4285F4]">G</span>
+                  <span className="text-[#EA4335]">o</span>
+                  <span className="text-[#FBBC05]">o</span>
+                  <span className="text-[#4285F4]">g</span>
+                  <span className="text-[#34A853]">l</span>
+                  <span className="text-[#EA4335]">e</span>{' '}
+                  Meet
+                </h2>
+                <p className="text-slate-400 text-base max-w-lg mb-8">
+                  Des sessions en direct, interactives, depuis chez toi. Pose tes questions en temps réel, partage ton écran, collabore avec tes camarades.
+                </p>
+                <Link
+                  href="/inscription"
+                  className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl text-sm font-semibold text-white bg-primary hover:bg-primary-dark transition-all duration-200 shadow-glow-violet hover:shadow-glow-violet-lg group"
+                >
+                  Rejoindre la prochaine session
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                </Link>
+              </div>
+
+              {/* Visual side */}
+              <div className="flex-shrink-0 grid grid-cols-2 gap-3 w-full max-w-xs">
+                {[
+                  { icon: '🎯', label: 'Questions en direct' },
+                  { icon: '📹', label: 'Cours enregistrés' },
+                  { icon: '🤝', label: 'Sessions ciblées' },
+                  { icon: '💬', label: 'Communauté active' },
+                ].map((item) => (
+                  <div key={item.label} className="bg-white/[0.04] border border-white/[0.06] rounded-xl p-4 text-center">
+                    <div className="text-2xl mb-2">{item.icon}</div>
+                    <p className="text-xs text-slate-400 font-medium">{item.label}</p>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* CTA final */}
-      <section className="py-20 bg-[#0F172A]">
-        <div className="max-w-4xl mx-auto px-4 text-center text-white">
-          <p className="text-xs font-semibold uppercase tracking-widest text-slate-500 mb-4">Rejoins-nous</p>
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 tracking-tight">Prêt à commencer ?</h2>
-          <p className="text-slate-400 text-base mb-10">Inscris-toi gratuitement et assiste à ton premier cours dès aujourd&apos;hui.</p>
-          <Button href="/inscription" color="blue" className="text-sm px-8 py-3.5">
+      <section className="relative py-28 bg-dark-bg overflow-hidden">
+        {/* Gradient mesh */}
+        <div className="absolute inset-0 bg-gradient-radial from-primary/10 via-dark-bg to-dark-bg pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-primary/10 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="max-w-4xl mx-auto px-4 text-center relative z-10">
+          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-500 mb-6">Rejoins-nous</p>
+          <h2 className="font-heading text-5xl md:text-6xl font-bold text-slate-100 mb-6 leading-tight">
+            Prêt à{' '}
+            <span className="italic gradient-text-violet">commencer ?</span>
+          </h2>
+          <p className="text-slate-400 text-lg mb-10 max-w-lg mx-auto">
+            Inscris-toi gratuitement et assiste à ton premier cours dès aujourd&apos;hui.
+          </p>
+          <Link
+            href="/inscription"
+            className="inline-flex items-center gap-2 px-9 py-4 rounded-xl text-base font-semibold text-white bg-primary hover:bg-primary-dark transition-all duration-200 shadow-glow-violet hover:shadow-glow-violet-lg group"
+          >
             S&apos;inscrire gratuitement
-          </Button>
+            <ArrowRight className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" />
+          </Link>
         </div>
       </section>
     </>

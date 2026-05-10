@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import SectionTitle from '@/components/ui/SectionTitle'
 import { faqItems } from '@/data/faq'
 
 function ChevronIcon({ open }: { open: boolean }) {
@@ -10,7 +9,7 @@ function ChevronIcon({ open }: { open: boolean }) {
     <motion.svg
       animate={{ rotate: open ? 180 : 0 }}
       transition={{ duration: 0.25 }}
-      className="w-4 h-4 flex-shrink-0 text-gray-400"
+      className={`w-4 h-4 flex-shrink-0 transition-colors duration-200 ${open ? 'text-primary-light' : 'text-slate-500'}`}
       fill="none"
       viewBox="0 0 24 24"
       stroke="currentColor"
@@ -26,13 +25,22 @@ export default function FAQ() {
   const [openIndex, setOpenIndex] = useState<number>(0)
 
   return (
-    <section id="faq" className="py-24 bg-white">
+    <section id="faq" className="py-24 bg-dark-bg">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        <SectionTitle
-          title="Questions fréquentes"
-          subtitle="Tout ce que tu veux savoir avant de te lancer."
-          accent="blue"
-        />
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="mb-14"
+        >
+          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-500 mb-4">FAQ</p>
+          <h2 className="font-heading text-4xl sm:text-5xl font-bold text-slate-100 leading-tight">
+            Questions{' '}
+            <span className="italic gradient-text-violet">fréquentes</span>
+          </h2>
+          <p className="mt-4 text-slate-400 text-base">Tout ce que tu veux savoir avant de te lancer.</p>
+        </motion.div>
 
         <div className="space-y-2">
           {faqItems.map((item, i) => {
@@ -49,8 +57,8 @@ export default function FAQ() {
                 transition={{ duration: 0.35, delay: i * 0.07 }}
                 className={`rounded-xl border transition-all duration-200 overflow-hidden ${
                   isOpen
-                    ? 'border-[#2563EB]/25 bg-white shadow-sm'
-                    : 'border-gray-100 bg-[#F4F3EF] hover:border-gray-200'
+                    ? 'border-primary/25 bg-[#0D1017]'
+                    : 'border-white/[0.06] bg-dark-card hover:border-white/[0.1]'
                 }`}
               >
                 <button
@@ -63,10 +71,10 @@ export default function FAQ() {
                   <div className="flex items-center gap-3 min-w-0">
                     <div
                       className={`w-0.5 h-4 rounded-full flex-shrink-0 transition-colors duration-200 ${
-                        isOpen ? 'bg-[#2563EB]' : 'bg-gray-200'
+                        isOpen ? 'bg-primary-light' : 'bg-white/[0.1]'
                       }`}
                     />
-                    <span className="font-medium text-gray-900 text-sm leading-snug">
+                    <span className={`font-medium text-sm leading-snug transition-colors duration-200 ${isOpen ? 'text-slate-100' : 'text-slate-300'}`}>
                       {item.question}
                     </span>
                   </div>
@@ -86,7 +94,7 @@ export default function FAQ() {
                       transition={{ duration: 0.28, ease: [0.4, 0, 0.2, 1] }}
                       className="overflow-hidden"
                     >
-                      <p className="px-5 pb-5 pl-11 text-sm text-gray-500 leading-relaxed">
+                      <p className="px-5 pb-5 pl-11 text-sm text-slate-400 leading-relaxed">
                         {item.reponse}
                       </p>
                     </motion.div>

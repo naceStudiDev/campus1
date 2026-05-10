@@ -32,8 +32,8 @@ export default function Header() {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
-          ? 'bg-white/90 backdrop-blur-xl shadow-sm border-b border-gray-200/60'
-          : 'bg-white/70 backdrop-blur-md'
+          ? 'bg-dark-bg/80 backdrop-blur-xl border-b border-white/[0.06] shadow-[0_1px_40px_rgba(0,0,0,0.5)]'
+          : 'bg-dark-bg/60 backdrop-blur-md'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -51,15 +51,15 @@ export default function Header() {
                   href={link.href}
                   className={`relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
                     isActive
-                      ? 'text-[#2563EB]'
-                      : 'text-gray-500 hover:text-gray-900 hover:bg-black/5'
+                      ? 'text-primary-light'
+                      : 'text-slate-400 hover:text-slate-100 hover:bg-white/[0.05]'
                   }`}
                 >
                   {link.label}
                   {isActive && (
                     <motion.div
                       layoutId="nav-indicator"
-                      className="absolute bottom-1 left-1/2 -translate-x-1/2 h-0.5 w-4 rounded-full bg-[#2563EB]"
+                      className="absolute bottom-1 left-1/2 -translate-x-1/2 h-0.5 w-4 rounded-full bg-primary-light"
                     />
                   )}
                 </Link>
@@ -71,15 +71,16 @@ export default function Header() {
           <div className="hidden lg:flex items-center gap-3">
             <Link
               href="/inscription"
-              className="px-5 py-2.5 text-sm font-semibold rounded-xl text-white bg-[#2563EB] hover:bg-[#1D4ED8] transition-all duration-200 shadow-sm hover:shadow-md"
+              className="relative px-5 py-2.5 text-sm font-semibold rounded-xl text-white bg-primary hover:bg-primary-dark transition-all duration-200 shadow-glow-violet hover:shadow-glow-violet-lg group"
             >
-              S&apos;inscrire
+              <span className="relative z-10">S&apos;inscrire</span>
+              <span className="absolute inset-0 rounded-xl bg-gradient-to-r from-primary to-violet-500 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
             </Link>
           </div>
 
           {/* Mobile menu button */}
           <button
-            className="lg:hidden p-2 rounded-xl text-gray-500 hover:bg-black/5 transition-colors"
+            className="lg:hidden p-2 rounded-xl text-slate-400 hover:text-slate-100 hover:bg-white/[0.05] transition-colors"
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label="Menu"
           >
@@ -100,7 +101,7 @@ export default function Header() {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.2 }}
-            className="lg:hidden bg-white border-t border-gray-200/60 shadow-lg overflow-hidden"
+            className="lg:hidden bg-dark-card border-t border-white/[0.06] shadow-lg overflow-hidden"
           >
             <div className="px-4 py-4 flex flex-col gap-1">
               {navLinks.map((link) => {
@@ -111,18 +112,18 @@ export default function Header() {
                     href={link.href}
                     className={`px-4 py-3 rounded-xl font-medium text-sm transition-colors ${
                       isActive
-                        ? 'bg-[#2563EB]/8 text-[#2563EB] font-semibold'
-                        : 'text-gray-600 hover:bg-black/5'
+                        ? 'bg-primary/10 text-primary-light font-semibold'
+                        : 'text-slate-400 hover:bg-white/[0.05] hover:text-slate-100'
                     }`}
                   >
                     {link.label}
                   </Link>
                 )
               })}
-              <div className="pt-2 mt-2 border-t border-gray-100">
+              <div className="pt-2 mt-2 border-t border-white/[0.06]">
                 <Link
                   href="/inscription"
-                  className="block w-full text-center px-4 py-3 rounded-xl text-white font-semibold text-sm bg-[#2563EB] hover:bg-[#1D4ED8] transition-colors"
+                  className="block w-full text-center px-4 py-3 rounded-xl text-white font-semibold text-sm bg-primary hover:bg-primary-dark transition-colors"
                 >
                   S&apos;inscrire gratuitement
                 </Link>

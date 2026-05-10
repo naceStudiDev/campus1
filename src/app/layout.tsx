@@ -23,11 +23,11 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fr">
+    <html lang="fr" className="dark">
       <head>
         <link rel="icon" href="/images/logo.png" type="image/png" />
       </head>
-      <body className="text-gray-900">
+      <body className="bg-dark-bg text-slate-100 antialiased">
         <Header />
         <main>{children}</main>
         <Footer />

@@ -17,16 +17,16 @@ interface ButtonProps {
 
 const colorMap = {
   blue: {
-    bg: 'bg-[#2563EB] hover:bg-[#1D4ED8]',
-    border: 'border-[#2563EB] text-[#2563EB] hover:bg-[#2563EB]',
+    bg: 'bg-primary hover:bg-primary-dark shadow-glow-violet hover:shadow-glow-violet-lg',
+    border: 'border border-primary/40 text-primary-light hover:bg-primary/10 hover:border-primary/60',
   },
   red: {
-    bg: 'bg-[#DC2626] hover:bg-[#B91C1C]',
-    border: 'border-[#DC2626] text-[#DC2626] hover:bg-[#DC2626]',
+    bg: 'bg-red-600 hover:bg-red-700',
+    border: 'border border-red-500/40 text-red-400 hover:bg-red-500/10',
   },
   green: {
-    bg: 'bg-[#059669] hover:bg-[#047857]',
-    border: 'border-[#059669] text-[#059669] hover:bg-[#059669]',
+    bg: 'bg-emerald-600 hover:bg-emerald-700',
+    border: 'border border-emerald-500/40 text-emerald-400 hover:bg-emerald-500/10',
   },
 }
 
@@ -45,10 +45,9 @@ export default function Button({
 
   const styles = cn(
     base,
-    variant === 'primary' && `${colorMap[color].bg} text-white shadow-sm hover:shadow-md`,
-    variant === 'outline' &&
-      `border-2 ${colorMap[color].border} hover:text-white bg-transparent`,
-    variant === 'secondary' && 'bg-white text-gray-800 hover:bg-gray-50 shadow-sm',
+    variant === 'primary' && `${colorMap[color].bg} text-white`,
+    variant === 'outline' && `${colorMap[color].border} bg-transparent`,
+    variant === 'secondary' && 'bg-dark-card text-slate-200 hover:bg-dark-muted border border-white/[0.07]',
     disabled && 'opacity-50 cursor-not-allowed',
     className
   )

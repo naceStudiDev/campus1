@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,800;0,9..144,900;1,9..144,400;1,9..144,700;1,9..144,900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
 
 * {
   box-sizing: border-box;
@@ -13,15 +13,16 @@ html {
 }
 
 body {
-  font-family: 'Inter', system-ui, sans-serif;
-  background-color: #F4F3EF;
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  background-color: #080B14;
+  color: #F8FAFC;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Space Grotesk', system-ui, sans-serif;
-  letter-spacing: -0.025em;
+  font-family: 'Fraunces', Georgia, serif;
+  letter-spacing: -0.02em;
 }
 
 .font-mono {
@@ -35,4 +36,38 @@ h1, h2, h3, h4, h5, h6 {
 
 .cursor-blink {
   animation: blink 1s step-end infinite;
+}
+
+/* Bento card entrance animation */
+@keyframes bentoCardIn {
+  0% { opacity: 0; transform: translateY(18px) scale(0.97); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.bento-card-animate {
+  animation: bentoCardIn 0.7s ease-out forwards;
+}
+
+/* Gradient text utility */
+.gradient-text-violet {
+  background: linear-gradient(135deg, #A78BFA 0%, #F59E0B 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Subtle grid background */
+.bg-grid-dark {
+  background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* Glow effects */
+.glow-violet {
+  box-shadow: 0 0 30px rgba(124,58,237,0.25);
+}
+
+.glow-violet-text {
+  text-shadow: 0 0 30px rgba(124,58,237,0.5);
 }

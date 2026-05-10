@@ -1,30 +1,40 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion, useInView } from 'framer-motion'
+import { useRef } from 'react'
 
 const stats = [
-  { value: '9+', label: 'Formations disponibles', color: '#2563EB' },
-  { value: '100%', label: 'Cours en ligne', color: '#DC2626' },
-  { value: 'Live', label: 'Sessions via Google Meet', color: '#059669' },
-  { value: '∞', label: 'Accès aux replays', color: '#D97706' },
+  { value: '9+', label: 'Formations disponibles', accent: 'text-primary-light' },
+  { value: '100%', label: 'Cours en ligne', accent: 'text-accent' },
+  { value: 'Live', label: 'Sessions Google Meet', accent: 'text-emerald-400' },
+  { value: '∞', label: 'Accès aux replays', accent: 'text-fuchsia-400' },
 ]
 
 export default function StatsSection() {
+  const ref = useRef<HTMLDivElement>(null)
+  const isInView = useInView(ref, { once: true, margin: '-60px' })
+
   return (
-    <section className="py-16 bg-[#0F172A]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+    <section className="relative py-20 bg-dark-muted border-y border-white/[0.04] overflow-hidden">
+      {/* Glow */}
+      <div className="absolute inset-0 bg-gradient-radial from-primary/5 via-transparent to-transparent pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div ref={ref} className="flex flex-col sm:flex-row items-center justify-center gap-0 divide-y sm:divide-y-0 sm:divide-x divide-white/[0.06]">
           {stats.map((stat, i) => (
             <motion.div
               key={stat.label}
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: i * 0.1 }}
-              className="text-center"
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5, delay: i * 0.1, ease: 'easeOut' }}
+              className="flex-1 text-center px-10 py-6"
             >
-              <p className="text-5xl font-bold tracking-tight" style={{ color: stat.color }}>{stat.value}</p>
-              <p className="text-slate-400 mt-2 text-xs uppercase tracking-widest font-medium">{stat.label}</p>
+              <p className={`font-heading text-5xl font-bold tracking-tight ${stat.accent}`}>
+                {stat.value}
+              </p>
+              <p className="text-slate-500 mt-2 text-xs uppercase tracking-[0.2em] font-medium">
+                {stat.label}
+              </p>
             </motion.div>
           ))}
         </div>

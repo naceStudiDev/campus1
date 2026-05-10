@@ -42,15 +42,12 @@ export default function DCDLogo({ size = 'md', showName = true }: DCDLogoProps) 
       {/* Name */}
       {showName && (
         <div className="flex flex-col leading-tight">
-          <span
-            className={`font-black tracking-tight text-gray-900 ${s.title}`}
-            style={{ fontFamily: 'Roboto, sans-serif' }}
-          >
+          <span className={`font-black tracking-tight text-slate-100 ${s.title}`}>
             Digital Campus
           </span>
           <span
             className={`font-bold tracking-widest uppercase ${s.sub}`}
-            style={{ color: '#059669', fontFamily: 'Roboto, sans-serif', letterSpacing: '0.15em' }}
+            style={{ color: '#A78BFA', letterSpacing: '0.15em' }}
           >
             Dz
           </span>
