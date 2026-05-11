@@ -52,16 +52,21 @@ const TYPE_GRADIENTS: Record<string, string> = {
   Guide: 'from-violet-500 to-purple-400',
 }
 
-const FORMATION_TO_CATEGORY: Record<string, string> = {
-  python: 'Python',
-  'dev-web': 'Dev Web',
-  'algo-1': 'Dev Web',
-  'algo-2': 'Dev Web',
-  sql: 'Dev Web',
-  cybersecurite: 'Cybersécurité',
-  'c-language': 'Langage C',
-  'architecture-machine': 'Architecture',
-  'marketing-digital': 'Marketing',
+// Plusieurs catégories par formation — ordre = priorité d'affichage
+const FORMATION_TO_CATEGORIES: Record<string, string[]> = {
+  python:               ['Python'],
+  'dev-web':            ['Dev Web'],
+  'algo-1':             ['Python', 'Langage C'],
+  'algo-2':             ['Python', 'Langage C'],
+  sql:                  ['Dev Web', 'Python'],
+  cybersecurite:        ['Cybersécurité'],
+  'c-language':         ['Langage C'],
+  'architecture-machine':['Architecture', 'Langage C'],
+  'marketing-digital':  ['Marketing'],
+  // Anciens IDs (inscriptions avant refonte catalogue)
+  django:               ['Django', 'Dev Web'],
+  'data-science':       ['Data Science', 'Python'],
+  flutter:              ['Dev Web'],
 }
 
 export default function MonEspacePage() {
@@ -162,8 +167,10 @@ export default function MonEspacePage() {
   const { Icon, gradient, glow } = getFormationIcon(inscription.formation)
   const currentStep = STATUT_ORDER[inscription.statut] ?? 0
   const initiales = `${inscription.prenom[0]}${inscription.nom[0]}`.toUpperCase()
-  const category = FORMATION_TO_CATEGORY[inscription.formation] ?? 'Python'
-  const recommandees = resources.filter(r => r.category === category).slice(0, 3)
+  const categories = FORMATION_TO_CATEGORIES[inscription.formation] ?? ['Python']
+  const recommandees = resources
+    .filter(r => categories.includes(r.category))
+    .slice(0, 3)
 
   return (
     <>
@@ -396,7 +403,7 @@ export default function MonEspacePage() {
           {/* ── Ressources recommandées ─────────────────────────────────── */}
           <section>
             <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-500 mb-5">
-              Ressources recommandées — {category}
+              Ressources recommandées — {categories[0]}
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {recommandees.map((res) => {
