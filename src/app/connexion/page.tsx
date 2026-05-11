@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import MeshGradientBg from '@/components/ui/MeshGradientBg'
-import { supabase } from '@/lib/supabase'
+import { supabase } from '@/lib/supabase-browser'
 import { Mail, ArrowRight, CheckCircle2, Loader2, Lock } from 'lucide-react'
 import Link from 'next/link'
 
