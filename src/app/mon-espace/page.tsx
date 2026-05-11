@@ -1,9 +1,11 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 import MeshGradientBg from '@/components/ui/MeshGradientBg'
+import { supabase } from '@/lib/supabase'
 import { formations } from '@/data/formations'
 import { resources } from '@/data/ressources'
 import { getFormationIcon } from '@/lib/formation-icons'
@@ -11,26 +13,26 @@ import {
   User, Mail, Phone, BookOpen, ChevronDown, ExternalLink,
   MessageCircle, Library, HeadphonesIcon, CheckCircle2,
   Clock, ClipboardList, FileText, Film, PenLine, Map,
-  CalendarDays, Bell, LogOut, LucideIcon,
+  CalendarDays, Bell, LogOut, Loader2, AlertCircle, LucideIcon,
 } from 'lucide-react'
 
-// ─── Mock user — remplacé par Supabase Auth plus tard ───────────────────────
-const MOCK_USER = {
-  prenom: 'Amine',
-  nom: 'Benali',
-  email: 'amine.benali@gmail.com',
-  telephone: '0550 123 456',
-  formation: 'python',
-  statut: 'contacté' as const,
-  message: "Bonjour, j'aimerais en savoir plus sur le programme.",
-  created_at: '2026-05-09',
+interface Inscription {
+  id: string
+  prenom: string
+  nom: string
+  email: string
+  telephone: string
+  formation: string
+  message: string | null
+  statut: 'nouveau' | 'contacté' | 'inscrit' | 'annulé'
+  created_at: string
 }
 
 const STATUT_STEPS = [
-  { key: 'nouveau',  label: 'Inscription reçue',  desc: 'Ta demande a bien été enregistrée.' },
-  { key: 'contacté', label: 'Contacté',            desc: 'L\'équipe t\'a contacté ou va le faire.' },
-  { key: 'inscrit',  label: 'Confirmé',            desc: 'Ton inscription est officiellement validée.' },
-  { key: 'en-cours', label: 'En cours',            desc: 'Ta formation a démarré.' },
+  { key: 'nouveau',  label: 'Inscription reçue', desc: 'Ta demande a bien été enregistrée.' },
+  { key: 'contacté', label: 'Contacté',           desc: "L'équipe t'a contacté ou va le faire." },
+  { key: 'inscrit',  label: 'Confirmé',           desc: 'Ton inscription est officiellement validée.' },
+  { key: 'en-cours', label: 'En cours',           desc: 'Ta formation a démarré.' },
 ]
 
 const STATUT_ORDER: Record<string, number> = {
@@ -49,7 +51,6 @@ const TYPE_GRADIENTS: Record<string, string> = {
   Guide: 'from-violet-500 to-purple-400',
 }
 
-// Mappe l'ID formation → catégorie ressource
 const FORMATION_TO_CATEGORY: Record<string, string> = {
   python: 'Python',
   'dev-web': 'Dev Web',
@@ -63,17 +64,104 @@ const FORMATION_TO_CATEGORY: Record<string, string> = {
 }
 
 export default function MonEspacePage() {
+  const router = useRouter()
+  const [inscription, setInscription] = useState<Inscription | null>(null)
+  const [loadingState, setLoadingState] = useState<'loading' | 'ready' | 'no-inscription' | 'error'>('loading')
   const [programOpen, setProgramOpen] = useState(false)
-  const user = MOCK_USER
 
-  const formation = formations.find(f => f.id === user.formation)
-  const { Icon, gradient, glow } = getFormationIcon(user.formation)
-  const currentStep = STATUT_ORDER[user.statut] ?? 0
+  useEffect(() => {
+    async function init() {
+      const { data: { session } } = await supabase.auth.getSession()
 
-  const initiales = `${user.prenom[0]}${user.nom[0]}`.toUpperCase()
+      if (!session) {
+        router.replace('/connexion')
+        return
+      }
 
-  // Ressources filtrées par catégorie de la formation
-  const category = FORMATION_TO_CATEGORY[user.formation] ?? 'Python'
+      const res = await fetch('/api/mon-inscription', {
+        headers: { Authorization: `Bearer ${session.access_token}` },
+      })
+
+      if (res.status === 404) {
+        setLoadingState('no-inscription')
+        return
+      }
+
+      if (!res.ok) {
+        setLoadingState('error')
+        return
+      }
+
+      const data = await res.json()
+      setInscription(data)
+      setLoadingState('ready')
+    }
+
+    init()
+  }, [router])
+
+  async function handleLogout() {
+    await supabase.auth.signOut()
+    router.push('/')
+  }
+
+  // ── États de chargement ────────────────────────────────────────────────────
+  if (loadingState === 'loading') {
+    return (
+      <div className="min-h-screen bg-dark-bg flex flex-col items-center justify-center gap-4">
+        <Loader2 className="w-8 h-8 text-primary-light animate-spin" />
+        <p className="text-slate-400 text-sm">Chargement de ton espace…</p>
+      </div>
+    )
+  }
+
+  if (loadingState === 'no-inscription') {
+    return (
+      <div className="min-h-screen bg-dark-bg flex flex-col items-center justify-center gap-6 px-4">
+        <div className="w-16 h-16 bg-amber-500/10 border border-amber-500/20 rounded-2xl flex items-center justify-center">
+          <AlertCircle className="w-8 h-8 text-amber-400" />
+        </div>
+        <div className="text-center">
+          <h2 className="font-heading text-xl font-bold text-slate-100 mb-2">Aucune inscription trouvée</h2>
+          <p className="text-slate-400 text-sm max-w-sm">
+            Aucune inscription n'est associée à cette adresse email. Tu dois t'inscrire avec la même adresse email que celle utilisée pour remplir le formulaire.
+          </p>
+        </div>
+        <div className="flex gap-3">
+          <Link href="/inscription"
+            className="px-5 py-2.5 rounded-xl text-sm font-semibold text-white bg-primary hover:bg-primary-dark transition-colors shadow-glow-violet">
+            S'inscrire à une formation
+          </Link>
+          <button onClick={handleLogout}
+            className="px-5 py-2.5 rounded-xl text-sm font-medium text-slate-400 border border-white/[0.08] hover:border-white/[0.15] hover:text-slate-200 transition-colors">
+            Se déconnecter
+          </button>
+        </div>
+      </div>
+    )
+  }
+
+  if (loadingState === 'error' || !inscription) {
+    return (
+      <div className="min-h-screen bg-dark-bg flex flex-col items-center justify-center gap-4 px-4">
+        <div className="w-16 h-16 bg-red-500/10 border border-red-500/20 rounded-2xl flex items-center justify-center">
+          <AlertCircle className="w-8 h-8 text-red-400" />
+        </div>
+        <p className="text-slate-400 text-sm text-center">Une erreur est survenue. Réessaie ou contacte-nous.</p>
+        <button onClick={() => window.location.reload()}
+          className="text-sm text-primary-light hover:text-primary underline underline-offset-4 transition-colors">
+          Réessayer
+        </button>
+      </div>
+    )
+  }
+
+  // ── Page principale ────────────────────────────────────────────────────────
+  const formation = formations.find(f => f.id === inscription.formation)
+  const { Icon, gradient, glow } = getFormationIcon(inscription.formation)
+  const currentStep = STATUT_ORDER[inscription.statut] ?? 0
+  const initiales = `${inscription.prenom[0]}${inscription.nom[0]}`.toUpperCase()
+  const category = FORMATION_TO_CATEGORY[inscription.formation] ?? 'Python'
   const recommandees = resources.filter(r => r.category === category).slice(0, 3)
 
   return (
@@ -94,21 +182,28 @@ export default function MonEspacePage() {
             <div className="flex-1 text-center sm:text-left">
               <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-500 mb-1">Mon espace</p>
               <h1 className="font-heading text-3xl md:text-4xl font-bold text-slate-100 mb-2">
-                {user.prenom} <span className="text-slate-400">{user.nom}</span>
+                {inscription.prenom}{' '}
+                <span className="text-slate-400">{inscription.nom}</span>
               </h1>
               <div className="flex flex-wrap justify-center sm:justify-start gap-3 text-sm text-slate-400">
-                <span className="flex items-center gap-1.5"><Mail className="w-3.5 h-3.5" />{user.email}</span>
-                <span className="flex items-center gap-1.5"><Phone className="w-3.5 h-3.5" />{user.telephone}</span>
-                <span className="flex items-center gap-1.5"><CalendarDays className="w-3.5 h-3.5" />Inscrit le {new Date(user.created_at).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
+                <span className="flex items-center gap-1.5"><Mail className="w-3.5 h-3.5" />{inscription.email}</span>
+                <span className="flex items-center gap-1.5"><Phone className="w-3.5 h-3.5" />{inscription.telephone}</span>
+                <span className="flex items-center gap-1.5">
+                  <CalendarDays className="w-3.5 h-3.5" />
+                  Inscrit le {new Date(inscription.created_at).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
+                </span>
               </div>
             </div>
 
-            {/* Actions top-right */}
+            {/* Actions */}
             <div className="flex items-center gap-2">
               <button className="p-2.5 rounded-xl border border-white/[0.08] text-slate-400 hover:text-slate-200 hover:border-white/[0.15] transition-colors">
                 <Bell className="w-4 h-4" />
               </button>
-              <button className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-white/[0.08] text-slate-400 hover:text-red-400 hover:border-red-500/20 text-sm font-medium transition-colors">
+              <button
+                onClick={handleLogout}
+                className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-white/[0.08] text-slate-400 hover:text-red-400 hover:border-red-500/20 text-sm font-medium transition-colors"
+              >
                 <LogOut className="w-4 h-4" />
                 Déconnexion
               </button>
@@ -126,32 +221,29 @@ export default function MonEspacePage() {
             <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-500 mb-5">Statut de mon inscription</p>
             <div className="bg-dark-card border border-white/[0.07] rounded-2xl p-6">
               <div className="relative flex items-start justify-between gap-2">
-                {/* Ligne de progression */}
                 <div className="absolute top-4 left-0 right-0 h-0.5 bg-white/[0.06]" />
                 <div
                   className="absolute top-4 left-0 h-0.5 bg-gradient-to-r from-primary to-algerie transition-all duration-700"
                   style={{ width: `${(currentStep / (STATUT_STEPS.length - 1)) * 100}%` }}
                 />
-
                 {STATUT_STEPS.map((step, i) => {
                   const done = i < currentStep
                   const active = i === currentStep
                   return (
                     <div key={step.key} className="relative flex flex-col items-center flex-1 z-10">
-                      {/* Dot */}
                       <div className={`w-8 h-8 rounded-full flex items-center justify-center border-2 transition-all duration-300 ${
                         done   ? 'bg-algerie border-algerie shadow-glow-algerie' :
                         active ? 'bg-primary border-primary shadow-glow-violet' :
                                  'bg-dark-bg border-white/[0.12]'
                       }`}>
-                        {done ? (
-                          <CheckCircle2 className="w-4 h-4 text-white" />
-                        ) : (
-                          <span className={`text-xs font-bold ${active ? 'text-white' : 'text-slate-600'}`}>{i + 1}</span>
-                        )}
+                        {done
+                          ? <CheckCircle2 className="w-4 h-4 text-white" />
+                          : <span className={`text-xs font-bold ${active ? 'text-white' : 'text-slate-600'}`}>{i + 1}</span>
+                        }
                       </div>
-                      {/* Label */}
-                      <p className={`mt-3 text-xs font-semibold text-center leading-tight ${active ? 'text-slate-100' : done ? 'text-algerie-light' : 'text-slate-600'}`}>
+                      <p className={`mt-3 text-xs font-semibold text-center leading-tight ${
+                        active ? 'text-slate-100' : done ? 'text-algerie-light' : 'text-slate-600'
+                      }`}>
                         {step.label}
                       </p>
                       {active && (
@@ -168,13 +260,11 @@ export default function MonEspacePage() {
 
           {/* ── Formation + Infos ────────────────────────────────────────── */}
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
-
             {/* Formation card */}
             <div className="lg:col-span-3 bg-dark-card border border-white/[0.07] rounded-2xl overflow-hidden">
               <div className={`h-0.5 w-full bg-gradient-to-r ${gradient}`} />
               <div className="p-6">
                 <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-500 mb-4">Ma formation</p>
-
                 <div className="flex items-start gap-4 mb-5">
                   <div className="relative flex-shrink-0">
                     <div className="absolute inset-0 rounded-xl blur-lg opacity-50" style={{ background: glow }} />
@@ -183,114 +273,118 @@ export default function MonEspacePage() {
                     </div>
                   </div>
                   <div>
-                    <h2 className="font-heading text-xl font-bold text-slate-100">{formation?.title}</h2>
+                    <h2 className="font-heading text-xl font-bold text-slate-100">{formation?.title ?? inscription.formation}</h2>
                     <p className="text-sm text-slate-400 mt-0.5 leading-relaxed">{formation?.description}</p>
                   </div>
                 </div>
 
-                {/* Topics */}
-                <div className="flex flex-wrap gap-1.5 mb-5">
-                  {formation?.topics.map(t => (
-                    <span key={t} className="text-xs bg-white/[0.04] border border-white/[0.06] text-slate-400 px-2.5 py-1 rounded-lg">
-                      {t}
-                    </span>
-                  ))}
-                </div>
+                {formation && (
+                  <>
+                    <div className="flex flex-wrap gap-1.5 mb-5">
+                      {formation.topics.map(t => (
+                        <span key={t} className="text-xs bg-white/[0.04] border border-white/[0.06] text-slate-400 px-2.5 py-1 rounded-lg">{t}</span>
+                      ))}
+                    </div>
+                    <div className="flex items-center gap-4 mb-5 text-sm text-slate-500">
+                      <span className="flex items-center gap-1.5"><Clock className="w-3.5 h-3.5" />{formation.duration}</span>
+                      <span className="flex items-center gap-1.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-slate-600" />
+                        {formation.level}
+                      </span>
+                    </div>
 
-                <div className="flex items-center gap-4 mb-5 text-sm text-slate-500">
-                  <span className="flex items-center gap-1.5"><Clock className="w-3.5 h-3.5" />{formation?.duration}</span>
-                  <span className="flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-slate-600" />
-                    {formation?.level}
-                  </span>
-                </div>
-
-                {/* Programme accordéon */}
-                <button
-                  onClick={() => setProgramOpen(!programOpen)}
-                  className="flex items-center justify-between w-full text-sm font-semibold py-2.5 px-3 rounded-xl border transition-colors"
-                  style={{ backgroundColor: `${formation?.color}10`, color: formation?.color, borderColor: `${formation?.color}20` }}
-                >
-                  <span className="flex items-center gap-2">
-                    <ClipboardList className="w-4 h-4" />
-                    Programme ({formation?.program.length} modules)
-                  </span>
-                  <motion.span animate={{ rotate: programOpen ? 180 : 0 }} transition={{ duration: 0.2 }}>
-                    <ChevronDown className="w-4 h-4" />
-                  </motion.span>
-                </button>
-
-                <AnimatePresence>
-                  {programOpen && (
-                    <motion.div
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: 'auto' }}
-                      exit={{ opacity: 0, height: 0 }}
-                      transition={{ duration: 0.25 }}
-                      className="overflow-hidden mt-3"
+                    {/* Programme accordéon */}
+                    <button
+                      onClick={() => setProgramOpen(!programOpen)}
+                      className="flex items-center justify-between w-full text-sm font-semibold py-2.5 px-3 rounded-xl border transition-colors"
+                      style={{ backgroundColor: `${formation.color}10`, color: formation.color, borderColor: `${formation.color}20` }}
                     >
-                      <div className="space-y-2 max-h-72 overflow-y-auto pr-1">
-                        {formation?.program.map((mod, i) => (
-                          <div key={i} className="bg-white/[0.03] rounded-xl p-3 border border-white/[0.05]">
-                            <div className="flex items-start justify-between gap-2 mb-1.5">
-                              <p className="text-xs font-bold text-slate-200 leading-snug">{mod.title}</p>
-                              <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full whitespace-nowrap flex-shrink-0"
-                                style={{ backgroundColor: `${formation.color}15`, color: formation.color }}>
-                                {mod.duration}
-                              </span>
-                            </div>
-                            <ul className="space-y-0.5">
-                              {mod.topics.map((t, j) => (
-                                <li key={j} className="flex items-start gap-1.5 text-xs text-slate-500">
-                                  <span className="mt-0.5 flex-shrink-0" style={{ color: formation.color }}>•</span>
-                                  {t}
-                                </li>
-                              ))}
-                            </ul>
+                      <span className="flex items-center gap-2">
+                        <ClipboardList className="w-4 h-4" />
+                        Programme ({formation.program.length} modules)
+                      </span>
+                      <motion.span animate={{ rotate: programOpen ? 180 : 0 }} transition={{ duration: 0.2 }}>
+                        <ChevronDown className="w-4 h-4" />
+                      </motion.span>
+                    </button>
+
+                    <AnimatePresence>
+                      {programOpen && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: 'auto' }}
+                          exit={{ opacity: 0, height: 0 }}
+                          transition={{ duration: 0.25 }}
+                          className="overflow-hidden mt-3"
+                        >
+                          <div className="space-y-2 max-h-72 overflow-y-auto pr-1">
+                            {formation.program.map((mod, i) => (
+                              <div key={i} className="bg-white/[0.03] rounded-xl p-3 border border-white/[0.05]">
+                                <div className="flex items-start justify-between gap-2 mb-1.5">
+                                  <p className="text-xs font-bold text-slate-200 leading-snug">{mod.title}</p>
+                                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full whitespace-nowrap flex-shrink-0"
+                                    style={{ backgroundColor: `${formation.color}15`, color: formation.color }}>
+                                    {mod.duration}
+                                  </span>
+                                </div>
+                                <ul className="space-y-0.5">
+                                  {mod.topics.map((t, j) => (
+                                    <li key={j} className="flex items-start gap-1.5 text-xs text-slate-500">
+                                      <span className="mt-0.5 flex-shrink-0" style={{ color: formation.color }}>•</span>
+                                      {t}
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            ))}
                           </div>
-                        ))}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </>
+                )}
               </div>
             </div>
 
             {/* Informations personnelles */}
             <div className="lg:col-span-2 space-y-4">
-              {/* Profil */}
               <div className="bg-dark-card border border-white/[0.07] rounded-2xl p-5">
                 <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-500 mb-4">Mes informations</p>
                 <ul className="space-y-3">
                   {[
-                    { Icon: User,     value: `${user.prenom} ${user.nom}` },
-                    { Icon: Mail,     value: user.email },
-                    { Icon: Phone,    value: user.telephone },
-                    { Icon: BookOpen, value: formation?.title ?? user.formation },
-                  ].map(({ Icon: I, value }) => (
-                    <li key={value} className="flex items-center gap-3 text-sm">
+                    { I: User,     v: `${inscription.prenom} ${inscription.nom}` },
+                    { I: Mail,     v: inscription.email },
+                    { I: Phone,    v: inscription.telephone },
+                    { I: BookOpen, v: formation?.title ?? inscription.formation },
+                  ].map(({ I, v }) => (
+                    <li key={v} className="flex items-center gap-3 text-sm">
                       <div className="w-8 h-8 rounded-lg bg-white/[0.04] border border-white/[0.06] flex items-center justify-center flex-shrink-0">
                         <I className="w-3.5 h-3.5 text-slate-500" />
                       </div>
-                      <span className="text-slate-300 truncate">{value}</span>
+                      <span className="text-slate-300 truncate">{v}</span>
                     </li>
                   ))}
                 </ul>
               </div>
 
-              {/* Message */}
-              {user.message && (
+              {inscription.message && (
                 <div className="bg-dark-card border border-white/[0.07] rounded-2xl p-5">
                   <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-500 mb-3">Mon message</p>
-                  <p className="text-sm text-slate-400 leading-relaxed italic">"{user.message}"</p>
+                  <p className="text-sm text-slate-400 leading-relaxed italic">"{inscription.message}"</p>
                 </div>
               )}
 
-              {/* Prochaine étape */}
               <div className="bg-primary/5 border border-primary/15 rounded-2xl p-5">
                 <p className="text-xs font-semibold uppercase tracking-[0.3em] text-primary-light mb-3">Prochaine étape</p>
                 <p className="text-sm text-slate-300 leading-relaxed">
-                  L'équipe D.C.D te contactera prochainement pour confirmer ton inscription et t'envoyer les détails de la session.
+                  {inscription.statut === 'nouveau'
+                    ? "L'équipe D.C.D te contactera prochainement pour confirmer ton inscription."
+                    : inscription.statut === 'contacté'
+                    ? "Confirme ta place en répondant à notre message. La session démarre bientôt."
+                    : inscription.statut === 'inscrit'
+                    ? "Félicitations ! Tu recevras les détails de ta session par email."
+                    : "Ta formation est en cours. Bonne chance !"
+                  }
                 </p>
               </div>
             </div>
@@ -354,39 +448,9 @@ export default function MonEspacePage() {
             <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-500 mb-5">Actions rapides</p>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {[
-                {
-                  Icon: MessageCircle,
-                  title: 'Forum communautaire',
-                  desc: 'Pose tes questions, aide les autres.',
-                  href: '/forum',
-                  color: 'primary',
-                  border: 'border-primary/15',
-                  bg: 'bg-primary/5',
-                  iconBg: 'bg-primary/10',
-                  iconColor: 'text-primary-light',
-                },
-                {
-                  Icon: Library,
-                  title: 'Bibliothèque',
-                  desc: 'Accède à toutes les ressources gratuites.',
-                  href: '/bibliotheque',
-                  color: 'algerie',
-                  border: 'border-algerie/15',
-                  bg: 'bg-algerie/5',
-                  iconBg: 'bg-algerie/10',
-                  iconColor: 'text-algerie-light',
-                },
-                {
-                  Icon: HeadphonesIcon,
-                  title: 'Contacter l\'équipe',
-                  desc: 'Une question sur ta formation ?',
-                  href: '/contact',
-                  color: 'accent',
-                  border: 'border-accent/15',
-                  bg: 'bg-accent/5',
-                  iconBg: 'bg-accent/10',
-                  iconColor: 'text-accent-light',
-                },
+                { Icon: MessageCircle, title: 'Forum communautaire', desc: 'Pose tes questions, aide les autres.', href: '/forum', border: 'border-primary/15', bg: 'bg-primary/5', iconBg: 'bg-primary/10', iconColor: 'text-primary-light' },
+                { Icon: Library,       title: 'Bibliothèque',        desc: 'Accède à toutes les ressources gratuites.', href: '/bibliotheque', border: 'border-algerie/15', bg: 'bg-algerie/5', iconBg: 'bg-algerie/10', iconColor: 'text-algerie-light' },
+                { Icon: HeadphonesIcon,title: "Contacter l'équipe",  desc: 'Une question sur ta formation ?', href: '/contact', border: 'border-accent/15', bg: 'bg-accent/5', iconBg: 'bg-accent/10', iconColor: 'text-accent-light' },
               ].map(({ Icon: I, title, desc, href, border, bg, iconBg, iconColor }) => (
                 <Link key={href} href={href}
                   className={`flex items-start gap-4 ${bg} border ${border} rounded-2xl p-5 hover:brightness-110 transition-all duration-200 group`}>
