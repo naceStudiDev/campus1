@@ -3,6 +3,7 @@ import './globals.css'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import WhatsAppButton from '@/components/ui/WhatsAppButton'
+import JsonLd from '@/components/seo/JsonLd'
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.digitalcampus-dz.com'),
@@ -19,6 +20,12 @@ export const metadata: Metadata = {
     title: 'Digital Campus Dz | Cours de programmation en ligne – Algérie',
     description: 'L\'école fondée par des étudiants pour des étudiants. Cours en ligne via Google Meet.',
   },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Digital Campus Dz | Cours de programmation en ligne – Algérie',
+    description: 'L\'école fondée par des étudiants pour des étudiants. Cours en ligne via Google Meet en Algérie.',
+    site: '@DigitalCampusDz',
+  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -28,6 +35,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="icon" href="/images/logo.png" type="image/png" />
       </head>
       <body className="bg-dark-bg text-slate-100 antialiased">
+        <JsonLd />
         <Header />
         <main>{children}</main>
         <Footer />

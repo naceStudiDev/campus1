@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 }
 
 const socials = [
-  { name: 'Facebook', Icon: FacebookIcon, handle: '@DigitalCampusDz', href: '#', color: '#1877F2' },
+  { name: 'Facebook', Icon: FacebookIcon, handle: '@DigitalCampusDz', href: 'https://www.facebook.com/profile.php?id=61585710231966', color: '#1877F2' },
   { name: 'Instagram', Icon: InstagramIcon, handle: '@digitalcampusdz', href: '#', color: '#E1306C' },
   { name: 'LinkedIn', Icon: LinkedinIcon, handle: 'Digital Campus Dz', href: '#', color: '#0A66C2' },
   { name: 'Telegram', Icon: TelegramIcon, handle: '@dcd_community', href: '#', color: '#229ED9' },
