@@ -4,17 +4,21 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import MeshGradientBg from '@/components/ui/MeshGradientBg'
 import { supabase } from '@/lib/supabase-browser'
-import { Mail, ArrowRight, CheckCircle2, Loader2, Lock } from 'lucide-react'
+import { Mail, ArrowRight, CheckCircle2, Loader2, Lock, ShieldCheck } from 'lucide-react'
 import Link from 'next/link'
 
 export default function ConnexionPage() {
   const [email, setEmail] = useState('')
+  const [rememberMe, setRememberMe] = useState(true)
   const [status, setStatus] = useState<'idle' | 'loading' | 'sent' | 'error'>('idle')
   const [errorMsg, setErrorMsg] = useState('')
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     if (!email.trim()) return
+
+    // Sauvegarde la préférence AVANT l'envoi — lue par supabase-browser au callback
+    localStorage.setItem('dcd_rm', rememberMe ? '1' : '0')
 
     setStatus('loading')
     setErrorMsg('')
@@ -71,10 +75,16 @@ export default function ConnexionPage() {
                     <CheckCircle2 className="w-8 h-8 text-algerie-light" />
                   </div>
                   <h2 className="font-heading text-lg font-bold text-slate-100 mb-2">Vérifie ta boîte mail</h2>
-                  <p className="text-sm text-slate-400 mb-2">
-                    Un lien de connexion a été envoyé à
-                  </p>
-                  <p className="text-sm font-semibold text-primary-light mb-6">{email}</p>
+                  <p className="text-sm text-slate-400 mb-2">Un lien de connexion a été envoyé à</p>
+                  <p className="text-sm font-semibold text-primary-light mb-4">{email}</p>
+
+                  {rememberMe && (
+                    <div className="flex items-center justify-center gap-2 text-xs text-algerie-light bg-algerie/10 border border-algerie/20 rounded-xl px-4 py-2.5 mb-4">
+                      <ShieldCheck className="w-3.5 h-3.5 flex-shrink-0" />
+                      Tu resteras connecté(e) après ce premier lien.
+                    </div>
+                  )}
+
                   <p className="text-xs text-slate-600">
                     Le lien est valable 10 minutes. Pense à vérifier tes spams.
                   </p>
@@ -111,6 +121,39 @@ export default function ConnexionPage() {
                     </div>
                   </div>
 
+                  {/* Case "Rester connecté" */}
+                  <label className="flex items-start gap-3 cursor-pointer group">
+                    <div className="relative flex-shrink-0 mt-0.5">
+                      <input
+                        type="checkbox"
+                        checked={rememberMe}
+                        onChange={e => setRememberMe(e.target.checked)}
+                        className="sr-only"
+                      />
+                      <div className={`w-5 h-5 rounded-md border-2 flex items-center justify-center transition-all duration-200 ${
+                        rememberMe
+                          ? 'bg-primary border-primary'
+                          : 'bg-transparent border-white/[0.2] group-hover:border-white/[0.4]'
+                      }`}>
+                        {rememberMe && (
+                          <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 12 12">
+                            <path d="M2 6l3 3 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                          </svg>
+                        )}
+                      </div>
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-slate-300 group-hover:text-slate-100 transition-colors">
+                        Rester connecté(e)
+                      </p>
+                      <p className="text-xs text-slate-600 mt-0.5">
+                        {rememberMe
+                          ? 'Tu n\'auras besoin de ce lien qu\'une seule fois sur cet appareil.'
+                          : 'La session se fermera quand tu fermes le navigateur.'}
+                      </p>
+                    </div>
+                  </label>
+
                   {status === 'error' && (
                     <motion.p
                       initial={{ opacity: 0, y: -4 }}
@@ -133,7 +176,7 @@ export default function ConnexionPage() {
                     )}
                   </button>
 
-                  <p className="text-center text-xs text-slate-600 pt-2">
+                  <p className="text-center text-xs text-slate-600 pt-1">
                     Utilise l'adresse email avec laquelle tu t'es inscrit(e).
                   </p>
                 </motion.form>
@@ -141,7 +184,6 @@ export default function ConnexionPage() {
             </AnimatePresence>
           </motion.div>
 
-          {/* Lien retour */}
           <p className="text-center text-xs text-slate-600 mt-6">
             Pas encore inscrit ?{' '}
             <Link href="/inscription" className="text-primary-light hover:text-primary underline underline-offset-4 transition-colors">
