@@ -38,6 +38,20 @@ export const resources: Resource[] = [
     description: 'Classes, héritage, encapsulation et polymorphisme avec des exemples concrets tirés de projets réels.',
     category: 'Python', level: 'Intermédiaire', meta: '1h 45min', tag: 'D.C.D Exclusif', tagColor: '#4285F4',
   },
+  {
+    type: 'Vidéo', typeColor: '#4285F4', icon: '🎬',
+    title: 'Python pour débutants — Cours complet freeCodeCamp',
+    description: 'Le cours Python le plus regardé sur YouTube : variables, fonctions, boucles, POO et projets pratiques en 4h.',
+    category: 'Python', level: 'Débutant', meta: '4h 28min', tag: 'Gratuit', tagColor: '#34A853',
+    url: 'https://www.youtube.com/watch?v=rfscVS0vtbw',
+  },
+  {
+    type: 'Guide', typeColor: '#34A853', icon: '🗺️',
+    title: 'Tutoriel officiel Python — Documentation python.org',
+    description: 'Le tutoriel de référence écrit par les créateurs de Python. Clair, progressif et toujours à jour.',
+    category: 'Python', level: 'Débutant', meta: 'Référence officielle', tag: 'Gratuit', tagColor: '#34A853',
+    url: 'https://docs.python.org/3/tutorial/index.html',
+  },
   // Dev Web
   {
     type: 'Vidéo', typeColor: '#4285F4', icon: '🎬',
@@ -64,6 +78,27 @@ export const resources: Resource[] = [
     description: 'Un plan détaillé semaine par semaine pour passer de zéro à développeur web junior employable.',
     category: 'Dev Web', level: 'Tous niveaux', meta: '1 page', tag: 'D.C.D Exclusif', tagColor: '#4285F4',
   },
+  {
+    type: 'Vidéo', typeColor: '#4285F4', icon: '🎬',
+    title: 'JavaScript complet — Cours freeCodeCamp',
+    description: 'Variables, fonctions, DOM, fetch, async/await — tout le JavaScript moderne en un seul cours de 3h.',
+    category: 'Dev Web', level: 'Débutant', meta: '3h 26min', tag: 'Gratuit', tagColor: '#34A853',
+    url: 'https://www.youtube.com/watch?v=PkZNo7MFNFg',
+  },
+  {
+    type: 'Guide', typeColor: '#34A853', icon: '🗺️',
+    title: 'The Odin Project — Curriculum complet développeur web',
+    description: 'Le parcours open-source le plus complet pour devenir développeur web full-stack, du HTML aux frameworks.',
+    category: 'Dev Web', level: 'Tous niveaux', meta: 'Parcours complet', tag: 'Gratuit', tagColor: '#34A853',
+    url: 'https://www.theodinproject.com/',
+  },
+  {
+    type: 'Guide', typeColor: '#34A853', icon: '🗺️',
+    title: 'javascript.info — Le tutoriel JavaScript moderne',
+    description: 'La référence incontournable pour apprendre JavaScript : du débutant aux concepts avancés (closures, prototypes, async).',
+    category: 'Dev Web', level: 'Tous niveaux', meta: 'Référence complète', tag: 'Gratuit', tagColor: '#34A853',
+    url: 'https://javascript.info/',
+  },
   // Django
   {
     type: 'Vidéo', typeColor: '#4285F4', icon: '🎬',
@@ -76,6 +111,27 @@ export const resources: Resource[] = [
     title: 'Django REST Framework — Créer une API',
     description: 'Serializers, ViewSets, authentification par token — construisez une API REST robuste et documentée.',
     category: 'Django', level: 'Avancé', meta: '55 pages', tag: 'D.C.D Exclusif', tagColor: '#4285F4',
+  },
+  {
+    type: 'Vidéo', typeColor: '#4285F4', icon: '🎬',
+    title: 'SQL complet — Cours freeCodeCamp (4h)',
+    description: 'SELECT, JOIN, agrégations, sous-requêtes, transactions — tout SQL en un cours structuré avec exercices.',
+    category: 'Data Science', level: 'Débutant', meta: '4h 20min', tag: 'Gratuit', tagColor: '#34A853',
+    url: 'https://www.youtube.com/watch?v=-fW2X7fh7Yg',
+  },
+  {
+    type: 'Exercices', typeColor: '#34A853', icon: '✏️',
+    title: 'SQLZoo — Pratiquer SQL en ligne interactivement',
+    description: 'Exercices SQL interactifs sur une vraie base de données en ligne. Du SELECT basique aux requêtes complexes.',
+    category: 'Data Science', level: 'Débutant', meta: 'Exercices interactifs', tag: 'Gratuit', tagColor: '#34A853',
+    url: 'https://sqlzoo.net/wiki/SQL_Tutorial',
+  },
+  {
+    type: 'Exercices', typeColor: '#34A853', icon: '✏️',
+    title: 'Kaggle Learn — Micro-cours Python, SQL, ML, Data Viz',
+    description: 'Des mini-cours pratiques avec notebooks interactifs : Python, Pandas, SQL, Machine Learning, visualisation.',
+    category: 'Data Science', level: 'Débutant', meta: 'Notebooks interactifs', tag: 'Gratuit', tagColor: '#34A853',
+    url: 'https://www.kaggle.com/learn',
   },
   // Data Science
   {
@@ -121,6 +177,13 @@ export const resources: Resource[] = [
     description: 'Reconnaissance, scanning, exploitation de failles basiques — une introduction pratique au test d\'intrusion.',
     category: 'Cybersécurité', level: 'Intermédiaire', meta: '2h 30min', tag: 'D.C.D Exclusif', tagColor: '#4285F4',
   },
+  {
+    type: 'Exercices', typeColor: '#34A853', icon: '✏️',
+    title: 'TryHackMe — Apprendre la cybersécurité par la pratique',
+    description: 'Plateforme gamifiée avec des labs interactifs : hacking éthique, OSINT, cryptographie, CTF pour tous niveaux.',
+    category: 'Cybersécurité', level: 'Débutant', meta: 'Plateforme de labs', tag: 'Gratuit', tagColor: '#34A853',
+    url: 'https://tryhackme.com/',
+  },
   // Langage C
   {
     type: 'PDF', typeColor: '#EA4335', icon: '📄',
@@ -146,6 +209,13 @@ export const resources: Resource[] = [
     description: 'Implémentation complète des structures de données classiques en C avec explications et schémas.',
     category: 'Langage C', level: 'Avancé', meta: '45 pages', tag: 'D.C.D Exclusif', tagColor: '#4285F4',
   },
+  {
+    type: 'Vidéo', typeColor: '#4285F4', icon: '🎬',
+    title: 'Langage C complet — Cours freeCodeCamp (19h)',
+    description: 'Le cours C le plus complet sur YouTube : bases, pointeurs, structures, fichiers, listes chaînées, arbres.',
+    category: 'Langage C', level: 'Débutant', meta: '19h', tag: 'Gratuit', tagColor: '#34A853',
+    url: 'https://www.youtube.com/watch?v=87SH2Cn0s9A',
+  },
   // Architecture Machine
   {
     type: 'PDF', typeColor: '#EA4335', icon: '📄',
@@ -164,6 +234,13 @@ export const resources: Resource[] = [
     title: 'Assembleur x86 — Introduction pratique',
     description: 'Les registres, les instructions de base, le passage de paramètres et le lien avec le langage C.',
     category: 'Architecture', level: 'Intermédiaire', meta: '1h 50min', tag: 'D.C.D Exclusif', tagColor: '#4285F4',
+  },
+  {
+    type: 'Vidéo', typeColor: '#4285F4', icon: '🎬',
+    title: 'CS50 Harvard — Introduction à l\'informatique (2024)',
+    description: 'Le cours d\'initiation à l\'informatique le plus célèbre au monde : algorithmes, C, Python, SQL, web. Sous-titres disponibles.',
+    category: 'Dev Web', level: 'Débutant', meta: '25h', tag: 'Gratuit', tagColor: '#34A853',
+    url: 'https://www.youtube.com/watch?v=gmuTjeQUbTM',
   },
   // Marketing Digital
   {
@@ -190,12 +267,40 @@ export const resources: Resource[] = [
     description: 'Créer une campagne search, choisir ses mots-clés, définir son budget et analyser les résultats.',
     category: 'Marketing', level: 'Débutant', meta: '1h 20min', tag: 'D.C.D Exclusif', tagColor: '#4285F4',
   },
+  {
+    type: 'Guide', typeColor: '#34A853', icon: '🗺️',
+    title: 'HubSpot Academy — Certifications marketing gratuites',
+    description: 'Certifications reconnues dans le domaine : Inbound Marketing, SEO, Email Marketing, Content Marketing.',
+    category: 'Marketing', level: 'Tous niveaux', meta: 'Certifications gratuites', tag: 'Gratuit', tagColor: '#34A853',
+    url: 'https://academy.hubspot.com/certification-overview',
+  },
+  {
+    type: 'Guide', typeColor: '#34A853', icon: '🗺️',
+    title: 'Google Digital Garage — Bases du marketing digital',
+    description: 'Cours officiel Google sur les fondamentaux du marketing digital : 26 modules, certification reconnue, 100% gratuit.',
+    category: 'Marketing', level: 'Débutant', meta: '40 heures', tag: 'Gratuit', tagColor: '#34A853',
+    url: 'https://learndigital.withgoogle.com/digitalgarage',
+  },
   // Outils
   {
     type: 'Fiche', typeColor: '#FBBC05', icon: '📋',
     title: 'Cheatsheet Git & GitHub',
     description: 'Toutes les commandes Git essentielles sur une seule page. À garder sous la main en permanence.',
     category: 'Outils', level: 'Débutant', meta: '2 pages', tag: 'Gratuit', tagColor: '#34A853',
+  },
+  {
+    type: 'Vidéo', typeColor: '#4285F4', icon: '🎬',
+    title: 'Git & GitHub — Crash course freeCodeCamp',
+    description: 'Maîtrise Git en 1h : init, commit, branch, merge, pull request — tout ce qu\'il faut pour travailler en équipe.',
+    category: 'Outils', level: 'Débutant', meta: '1h 09min', tag: 'Gratuit', tagColor: '#34A853',
+    url: 'https://www.youtube.com/watch?v=SWYqp7iY_Tc',
+  },
+  {
+    type: 'Vidéo', typeColor: '#4285F4', icon: '🎬',
+    title: 'Linux Command Line — Cours complet freeCodeCamp',
+    description: 'Terminal Linux de A à Z : navigation, gestion de fichiers, droits, processus, scripts bash — 6h de cours structuré.',
+    category: 'Outils', level: 'Débutant', meta: '5h 58min', tag: 'Gratuit', tagColor: '#34A853',
+    url: 'https://www.youtube.com/watch?v=ZtqBQ68cfJc',
   },
   {
     type: 'Guide', typeColor: '#34A853', icon: '🗺️',
