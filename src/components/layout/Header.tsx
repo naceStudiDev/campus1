@@ -89,13 +89,22 @@ export default function Header() {
                 Mon espace
               </Link>
             ) : (
-              <Link
-                href="/inscription"
-                className="relative px-5 py-2.5 text-sm font-semibold rounded-xl text-white bg-primary hover:bg-primary-dark transition-all duration-200 shadow-glow-violet hover:shadow-glow-violet-lg group"
-              >
-                <span className="relative z-10">S&apos;inscrire</span>
-                <span className="absolute inset-0 rounded-xl bg-gradient-to-r from-primary to-violet-500 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
-              </Link>
+              <>
+                <Link
+                  href="/connexion"
+                  className="flex items-center gap-1.5 px-4 py-2.5 text-sm font-medium text-slate-400 hover:text-slate-100 hover:bg-white/[0.05] rounded-xl transition-all duration-200"
+                >
+                  <User className="w-3.5 h-3.5" />
+                  Connexion
+                </Link>
+                <Link
+                  href="/inscription"
+                  className="relative px-5 py-2.5 text-sm font-semibold rounded-xl text-white bg-primary hover:bg-primary-dark transition-all duration-200 shadow-glow-violet hover:shadow-glow-violet-lg group"
+                >
+                  <span className="relative z-10">S&apos;inscrire</span>
+                  <span className="absolute inset-0 rounded-xl bg-gradient-to-r from-primary to-violet-500 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+                </Link>
+              </>
             )}
           </div>
 
@@ -142,13 +151,21 @@ export default function Header() {
                 )
               })}
               <div className="pt-2 mt-2 border-t border-white/[0.06] flex flex-col gap-2">
-                {hasSession && (
+                {hasSession ? (
                   <Link
                     href="/mon-espace"
                     className="flex items-center justify-center gap-2 w-full text-center px-4 py-3 rounded-xl text-white font-semibold text-sm bg-algerie hover:bg-algerie-dark transition-colors"
                   >
                     <User className="w-4 h-4" />
                     Mon espace
+                  </Link>
+                ) : (
+                  <Link
+                    href="/connexion"
+                    className="flex items-center justify-center gap-2 w-full text-center px-4 py-3 rounded-xl text-slate-300 font-medium text-sm border border-white/[0.08] hover:bg-white/[0.05] transition-colors"
+                  >
+                    <User className="w-4 h-4" />
+                    Connexion
                   </Link>
                 )}
                 <Link
