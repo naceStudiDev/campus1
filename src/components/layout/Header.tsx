@@ -5,6 +5,8 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import DCDLogo from '@/components/ui/DCDLogo'
+import { supabase } from '@/lib/supabase'
+import { User } from 'lucide-react'
 
 const navLinks = [
   { label: 'Accueil', href: '/' },
@@ -18,6 +20,7 @@ const navLinks = [
 export default function Header() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [hasSession, setHasSession] = useState(false)
   const pathname = usePathname()
 
   useEffect(() => {
@@ -27,6 +30,14 @@ export default function Header() {
   }, [])
 
   useEffect(() => setMenuOpen(false), [pathname])
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => setHasSession(!!data.session))
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_e, session) => {
+      setHasSession(!!session)
+    })
+    return () => subscription.unsubscribe()
+  }, [])
 
   return (
     <header
@@ -69,13 +80,23 @@ export default function Header() {
 
           {/* CTA */}
           <div className="hidden lg:flex items-center gap-3">
-            <Link
-              href="/inscription"
-              className="relative px-5 py-2.5 text-sm font-semibold rounded-xl text-white bg-primary hover:bg-primary-dark transition-all duration-200 shadow-glow-violet hover:shadow-glow-violet-lg group"
-            >
-              <span className="relative z-10">S&apos;inscrire</span>
-              <span className="absolute inset-0 rounded-xl bg-gradient-to-r from-primary to-violet-500 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
-            </Link>
+            {hasSession ? (
+              <Link
+                href="/mon-espace"
+                className="flex items-center gap-2 px-5 py-2.5 text-sm font-semibold rounded-xl text-white bg-algerie hover:bg-algerie-dark transition-all duration-200 shadow-glow-algerie"
+              >
+                <User className="w-4 h-4" />
+                Mon espace
+              </Link>
+            ) : (
+              <Link
+                href="/inscription"
+                className="relative px-5 py-2.5 text-sm font-semibold rounded-xl text-white bg-primary hover:bg-primary-dark transition-all duration-200 shadow-glow-violet hover:shadow-glow-violet-lg group"
+              >
+                <span className="relative z-10">S&apos;inscrire</span>
+                <span className="absolute inset-0 rounded-xl bg-gradient-to-r from-primary to-violet-500 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+              </Link>
+            )}
           </div>
 
           {/* Mobile menu button */}
@@ -120,7 +141,16 @@ export default function Header() {
                   </Link>
                 )
               })}
-              <div className="pt-2 mt-2 border-t border-white/[0.06]">
+              <div className="pt-2 mt-2 border-t border-white/[0.06] flex flex-col gap-2">
+                {hasSession && (
+                  <Link
+                    href="/mon-espace"
+                    className="flex items-center justify-center gap-2 w-full text-center px-4 py-3 rounded-xl text-white font-semibold text-sm bg-algerie hover:bg-algerie-dark transition-colors"
+                  >
+                    <User className="w-4 h-4" />
+                    Mon espace
+                  </Link>
+                )}
                 <Link
                   href="/inscription"
                   className="block w-full text-center px-4 py-3 rounded-xl text-white font-semibold text-sm bg-primary hover:bg-primary-dark transition-colors"

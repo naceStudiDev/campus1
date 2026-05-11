@@ -15,6 +15,7 @@ import {
   Clock, ClipboardList, FileText, Film, PenLine, Map,
   CalendarDays, Bell, LogOut, Loader2, AlertCircle, LucideIcon,
 } from 'lucide-react'
+import SessionTimer from '@/components/ui/SessionTimer'
 
 interface Inscription {
   id: string
@@ -373,6 +374,8 @@ export default function MonEspacePage() {
                   <p className="text-sm text-slate-400 leading-relaxed italic">"{inscription.message}"</p>
                 </div>
               )}
+
+              <SessionTimer userId={inscription.id} />
 
               <div className="bg-primary/5 border border-primary/15 rounded-2xl p-5">
                 <p className="text-xs font-semibold uppercase tracking-[0.3em] text-primary-light mb-3">Prochaine étape</p>
