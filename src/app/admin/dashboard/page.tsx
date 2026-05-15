@@ -370,7 +370,7 @@ function AnnoncesTab() {
     setAnnonces((prev) => prev.filter((a) => a.id !== id))
   }
 
-  const inputClass = 'w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm outline-none focus:border-[#4285F4] focus:ring-2 focus:ring-[#4285F4]/20 transition-colors'
+  const inputClass = 'w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm text-gray-900 bg-white placeholder:text-gray-400 outline-none focus:border-[#4285F4] focus:ring-2 focus:ring-[#4285F4]/20 transition-colors'
 
   return (
     <>

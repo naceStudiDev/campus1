@@ -56,7 +56,7 @@ export default function InscriptionForm() {
   }
 
   const inputClass = (hasError: boolean) =>
-    `w-full px-4 py-3 rounded-xl border text-sm transition-colors outline-none focus:ring-2 ${
+    `w-full px-4 py-3 rounded-xl border text-sm text-gray-900 bg-white placeholder:text-gray-400 transition-colors outline-none focus:ring-2 ${
       hasError
         ? 'border-[#EA4335] focus:ring-[#EA4335]/30'
         : 'border-gray-200 focus:border-[#34A853] focus:ring-[#34A853]/20'
