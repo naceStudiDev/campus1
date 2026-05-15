@@ -13,6 +13,7 @@ const navLinks = [
   { label: 'Formations', href: '/formations' },
   { label: 'Bibliothèque', href: '/bibliotheque' },
   { label: 'Forum', href: '/forum' },
+  { label: 'Annonces', href: '/annonces' },
   { label: 'Comment ça marche', href: '/comment-ca-marche' },
   { label: 'Contact', href: '/contact' },
 ]
