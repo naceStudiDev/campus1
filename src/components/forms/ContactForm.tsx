@@ -45,7 +45,7 @@ export default function ContactForm() {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
       <div>
-        <label className="block text-sm font-semibold text-gray-700 mb-1.5">Nom complet *</label>
+        <label className="block text-sm font-semibold text-white mb-1.5">Nom complet *</label>
         <input
           {...register('nom', { required: 'Nom requis' })}
           placeholder="Ton nom complet"
@@ -55,7 +55,7 @@ export default function ContactForm() {
       </div>
 
       <div>
-        <label className="block text-sm font-semibold text-gray-700 mb-1.5">Email *</label>
+        <label className="block text-sm font-semibold text-white mb-1.5">Email *</label>
         <input
           {...register('email', {
             required: 'Email requis',
@@ -69,7 +69,7 @@ export default function ContactForm() {
       </div>
 
       <div>
-        <label className="block text-sm font-semibold text-gray-700 mb-1.5">Sujet *</label>
+        <label className="block text-sm font-semibold text-white mb-1.5">Sujet *</label>
         <select
           {...register('sujet', { required: 'Sujet requis' })}
           className={`${inputClass(!!errors.sujet)} bg-white`}
@@ -84,7 +84,7 @@ export default function ContactForm() {
       </div>
 
       <div>
-        <label className="block text-sm font-semibold text-gray-700 mb-1.5">Message *</label>
+        <label className="block text-sm font-semibold text-white mb-1.5">Message *</label>
         <textarea
           {...register('message', { required: 'Message requis', minLength: { value: 10, message: 'Message trop court (min 10 caractères)' } })}
           rows={5}
