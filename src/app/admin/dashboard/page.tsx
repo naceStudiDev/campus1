@@ -399,7 +399,7 @@ function AnnoncesTab() {
               <label className="block text-xs font-semibold text-gray-600 mb-1">Titre *</label>
               <input type="text" required value={form.title}
                 onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))}
-                placeholder="Ex: Nouvelle session Python — Débutants"
+                placeholder="Titre de l'annonce"
                 className={inputClass} />
             </div>
 
@@ -407,7 +407,7 @@ function AnnoncesTab() {
               <label className="block text-xs font-semibold text-gray-600 mb-1">Description *</label>
               <textarea required value={form.description}
                 onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))}
-                rows={3} placeholder="Décrivez l'annonce..."
+                rows={3} placeholder="Description de l'annonce"
                 className={inputClass + ' resize-none'} />
             </div>
 
@@ -434,7 +434,7 @@ function AnnoncesTab() {
               <label className="block text-xs font-semibold text-gray-600 mb-1">Badge (optionnel)</label>
               <input type="text" value={form.badge}
                 onChange={(e) => setForm((f) => ({ ...f, badge: e.target.value }))}
-                placeholder="Ex: Nouveau, Places limitées, -30%"
+                placeholder="Badge (ex: Nouveau, -30%...)"
                 className={inputClass} />
             </div>
 
@@ -451,7 +451,7 @@ function AnnoncesTab() {
               <label className="block text-xs font-semibold text-gray-600 mb-1">Texte du bouton CTA *</label>
               <input type="text" required value={form.cta_label}
                 onChange={(e) => setForm((f) => ({ ...f, cta_label: e.target.value }))}
-                placeholder="Ex: S'inscrire via Google Form"
+                placeholder="Texte du bouton"
                 className={inputClass} />
             </div>
 
