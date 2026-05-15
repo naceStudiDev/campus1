@@ -1,17 +1,26 @@
 import { formations } from '@/data/formations'
 import CourseCard from '@/components/formations/CourseCard'
+import FormationsJsonLd from '@/components/seo/FormationsJsonLd'
 import Link from 'next/link'
 import { BookOpen, ArrowRight, MessageCircle } from 'lucide-react'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Formations',
-  description: 'Découvrez toutes nos formations en ligne : Python, Développement Web, Cybersécurité, Algorithmique et plus.',
+  title: 'Formations en ligne — Python, Dev Web, Cybersécurité, Algorithmique',
+  description: 'Découvrez toutes nos formations en ligne pour étudiants algériens : Python, Développement Web, Cybersécurité, Algorithmique, SQL et Langage C. Cours en direct via Google Meet.',
+  openGraph: {
+    title: 'Formations Digital Campus Dz — Cours en ligne Algérie',
+    description: 'Python, Dev Web, Cybersécurité, SQL, Algorithmique — cours en direct via Google Meet pour étudiants algériens.',
+  },
+  alternates: {
+    canonical: 'https://www.digitalcampus-dz.com/formations',
+  },
 }
 
 export default function FormationsPage() {
   return (
     <>
+      <FormationsJsonLd />
       {/* Hero */}
       <section className="pt-32 pb-16 bg-dark-bg relative overflow-hidden">
         {/* Glow */}
