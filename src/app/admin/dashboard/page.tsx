@@ -81,8 +81,8 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="bg-white border-b border-gray-100 sticky top-0 z-10 shadow-sm">
+    <div className="min-h-screen bg-gray-50 pt-16 md:pt-20">
+      <header className="bg-white border-b border-gray-100 sticky top-16 md:top-20 z-40 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-6">
             <DCDLogo size="sm" />
