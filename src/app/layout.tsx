@@ -13,18 +13,30 @@ export const metadata: Metadata = {
   },
   description: 'Digital Campus Dz, l\'école fondée par des étudiants pour des étudiants. Cours en ligne de programmation, cybersécurité, algorithmique et marketing digital via Google Meet en Algérie.',
   keywords: ['e-learning', 'algérie', 'programmation', 'python', 'algorithmique', 'cybersécurité', 'cours en ligne', 'google meet', 'digital campus dz', 'DZD'],
+  alternates: {
+    canonical: 'https://www.digitalcampus-dz.com',
+  },
   openGraph: {
     siteName: 'Digital Campus Dz',
     locale: 'fr_DZ',
     type: 'website',
     title: 'Digital Campus Dz | Cours de programmation en ligne – Algérie',
     description: 'L\'école fondée par des étudiants pour des étudiants. Cours en ligne via Google Meet.',
+    images: [
+      {
+        url: '/opengraph-image',
+        width: 1200,
+        height: 630,
+        alt: 'Digital Campus Dz — Cours de programmation en ligne, Algérie',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Digital Campus Dz | Cours de programmation en ligne – Algérie',
     description: 'L\'école fondée par des étudiants pour des étudiants. Cours en ligne via Google Meet en Algérie.',
     site: '@DigitalCampusDz',
+    images: ['/opengraph-image'],
   },
 }
 

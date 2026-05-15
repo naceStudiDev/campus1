@@ -3,8 +3,15 @@ import { ClipboardList, GraduationCap, Video, Flag } from 'lucide-react'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Inscription',
-  description: "Inscris-toi à Digital Campus Dz et commence ta formation en ligne dès aujourd'hui.",
+  title: 'S\'inscrire à une formation',
+  description: "Inscris-toi gratuitement à Digital Campus Dz et commence ta formation en ligne : Python, Développement Web, Cybersécurité ou Algorithmique. Cours en direct via Google Meet.",
+  openGraph: {
+    title: 'S\'inscrire — Digital Campus Dz',
+    description: "Rejoins Digital Campus Dz et apprends la programmation en direct avec des formateurs passionnés. Inscription gratuite.",
+  },
+  alternates: {
+    canonical: 'https://www.digitalcampus-dz.com/inscription',
+  },
 }
 
 const reassurance = [

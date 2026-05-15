@@ -4,8 +4,15 @@ import { FacebookIcon, InstagramIcon, LinkedinIcon, YoutubeIcon, TelegramIcon } 
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Contact',
-  description: "Contactez l'équipe de Digital Campus Dz pour toute question sur nos formations.",
+  title: 'Contactez-nous',
+  description: "Contactez l'équipe de Digital Campus Dz pour toute question sur nos formations en ligne : Python, Dev Web, Cybersécurité, Algorithmique. Réponse rapide garantie.",
+  openGraph: {
+    title: 'Contactez Digital Campus Dz',
+    description: "Une question sur nos formations ? Écrivez-nous. Réponse sous 24h.",
+  },
+  alternates: {
+    canonical: 'https://www.digitalcampus-dz.com/contact',
+  },
 }
 
 const socials = [
@@ -18,7 +25,7 @@ const socials = [
 
 const contactInfo = [
   { Icon: Mail, label: 'Email', value: 'contact@digitalcampusdz.com' },
-  { Icon: Phone, label: 'Téléphone', value: '+213 (0) XX XX XX XX' },
+  { Icon: Phone, label: 'Téléphone', value: '+213 (0) 5 02 50 25 01' },
   { Icon: MapPin, label: 'Localisation', value: 'Algérie (100% en ligne)' },
   { Icon: Clock, label: 'Disponibilité', value: 'Lun–Ven : 09h – 18h' },
 ]
