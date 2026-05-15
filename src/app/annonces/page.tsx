@@ -1,10 +1,22 @@
 'use client'
 
-import { useState } from 'react'
-import { annonces, AnnonceType } from '@/data/annonces'
-import { Megaphone, Calendar, ExternalLink, Zap, GraduationCap, Video, Tag, Star, ArrowRight, Bell } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { Megaphone, Calendar, ExternalLink, Zap, GraduationCap, Video, Tag, Star, ArrowRight, Bell, Loader2 } from 'lucide-react'
 import Link from 'next/link'
-import type { Metadata } from 'next'
+
+type AnnonceType = 'formation' | 'webinaire' | 'offre' | 'evenement'
+
+interface Annonce {
+  id: string
+  title: string
+  description: string
+  date: string
+  type: AnnonceType
+  badge: string | null
+  is_urgent: boolean
+  cta_label: string
+  cta_url: string
+}
 
 const typeConfig: Record<AnnonceType, { label: string; color: string; icon: React.ReactNode }> = {
   formation: {
@@ -38,8 +50,7 @@ const filters: { label: string; value: 'all' | AnnonceType }[] = [
 ]
 
 function formatDate(dateStr: string) {
-  const date = new Date(dateStr)
-  return date.toLocaleDateString('fr-DZ', { day: 'numeric', month: 'long', year: 'numeric' })
+  return new Date(dateStr).toLocaleDateString('fr-DZ', { day: 'numeric', month: 'long', year: 'numeric' })
 }
 
 function isUpcoming(dateStr: string) {
@@ -47,16 +58,22 @@ function isUpcoming(dateStr: string) {
 }
 
 export default function AnnoncesPage() {
+  const [annonces, setAnnonces] = useState<Annonce[]>([])
+  const [loading, setLoading] = useState(true)
   const [activeFilter, setActiveFilter] = useState<'all' | AnnonceType>('all')
+
+  useEffect(() => {
+    fetch('/api/annonces')
+      .then((r) => r.json())
+      .then((data) => { setAnnonces(data); setLoading(false) })
+      .catch(() => setLoading(false))
+  }, [])
 
   const sorted = [...annonces].sort(
     (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
   )
 
-  const filtered = activeFilter === 'all'
-    ? sorted
-    : sorted.filter((a) => a.type === activeFilter)
-
+  const filtered = activeFilter === 'all' ? sorted : sorted.filter((a) => a.type === activeFilter)
   const upcoming = sorted.filter((a) => isUpcoming(a.date)).slice(0, 4)
 
   return (
@@ -65,7 +82,6 @@ export default function AnnoncesPage() {
       <section className="pt-32 pb-16 bg-dark-bg relative overflow-hidden">
         <div className="absolute top-0 left-1/4 w-[500px] h-[400px] bg-primary/8 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 right-1/4 w-[300px] h-[300px] bg-emerald-500/5 rounded-full blur-3xl pointer-events-none" />
-
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 border border-primary/20 rounded-full text-primary-light text-sm font-semibold mb-6">
             <Megaphone className="w-4 h-4" />
@@ -87,7 +103,6 @@ export default function AnnoncesPage() {
 
             {/* Main content */}
             <div className="flex-1 min-w-0">
-
               {/* Filters */}
               <div className="flex flex-wrap gap-2 mb-8">
                 {filters.map((f) => (
@@ -105,12 +120,23 @@ export default function AnnoncesPage() {
                 ))}
               </div>
 
-              {/* Cards */}
-              {filtered.length === 0 ? (
+              {/* Loading */}
+              {loading && (
+                <div className="flex items-center justify-center py-20 text-slate-500">
+                  <Loader2 className="w-6 h-6 animate-spin mr-2" />
+                  Chargement des annonces...
+                </div>
+              )}
+
+              {/* Empty */}
+              {!loading && filtered.length === 0 && (
                 <div className="text-center py-20 text-slate-500">
                   Aucune annonce dans cette catégorie.
                 </div>
-              ) : (
+              )}
+
+              {/* Cards */}
+              {!loading && filtered.length > 0 && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   {filtered.map((annonce) => {
                     const tc = typeConfig[annonce.type]
@@ -122,12 +148,10 @@ export default function AnnoncesPage() {
                           past ? 'border-white/[0.04] opacity-60' : 'border-white/[0.08]'
                         }`}
                       >
-                        {/* Urgent glow */}
-                        {annonce.isUrgent && !past && (
+                        {annonce.is_urgent && !past && (
                           <div className="absolute top-0 right-0 w-32 h-32 bg-primary/8 rounded-full blur-2xl pointer-events-none" />
                         )}
 
-                        {/* Top row */}
                         <div className="flex items-center justify-between gap-3 mb-4 flex-wrap">
                           <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold border ${tc.color}`}>
                             {tc.icon}
@@ -136,11 +160,11 @@ export default function AnnoncesPage() {
                           <div className="flex items-center gap-2">
                             {annonce.badge && (
                               <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold border ${
-                                annonce.isUrgent
+                                annonce.is_urgent
                                   ? 'bg-primary/15 border-primary/30 text-primary-light'
                                   : 'bg-white/[0.06] border-white/[0.10] text-slate-300'
                               }`}>
-                                {annonce.isUrgent && <Zap className="w-3 h-3" />}
+                                {annonce.is_urgent && <Zap className="w-3 h-3" />}
                                 {annonce.badge}
                               </span>
                             )}
@@ -152,7 +176,6 @@ export default function AnnoncesPage() {
                           </div>
                         </div>
 
-                        {/* Content */}
                         <h2 className="font-heading text-lg font-bold text-slate-100 mb-2 leading-snug">
                           {annonce.title}
                         </h2>
@@ -160,7 +183,6 @@ export default function AnnoncesPage() {
                           {annonce.description}
                         </p>
 
-                        {/* Footer */}
                         <div className="flex items-center justify-between gap-4 mt-auto pt-4 border-t border-white/[0.06]">
                           <div className="flex items-center gap-1.5 text-xs text-slate-500">
                             <Calendar className="w-3.5 h-3.5" />
@@ -168,12 +190,12 @@ export default function AnnoncesPage() {
                           </div>
                           {!past && (
                             <a
-                              href={annonce.ctaUrl}
+                              href={annonce.cta_url}
                               target="_blank"
                               rel="noopener noreferrer"
                               className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold text-white bg-primary hover:bg-primary-dark transition-all duration-200 shadow-glow-violet group"
                             >
-                              {annonce.ctaLabel}
+                              {annonce.cta_label}
                               <ExternalLink className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
                             </a>
                           )}
@@ -185,7 +207,7 @@ export default function AnnoncesPage() {
               )}
             </div>
 
-            {/* Sidebar — Prochains événements */}
+            {/* Sidebar */}
             <aside className="lg:w-72 xl:w-80 flex-shrink-0">
               <div className="sticky top-24">
                 <div className="bg-white/[0.03] border border-white/[0.08] rounded-2xl p-6">
@@ -196,16 +218,23 @@ export default function AnnoncesPage() {
                     <h3 className="font-heading font-bold text-slate-100 text-base">À venir</h3>
                   </div>
 
-                  {upcoming.length === 0 ? (
+                  {loading && (
+                    <div className="flex items-center gap-2 text-slate-500 text-sm">
+                      <Loader2 className="w-4 h-4 animate-spin" /> Chargement...
+                    </div>
+                  )}
+
+                  {!loading && upcoming.length === 0 && (
                     <p className="text-slate-500 text-sm">Aucun événement à venir.</p>
-                  ) : (
+                  )}
+
+                  {!loading && upcoming.length > 0 && (
                     <div className="flex flex-col gap-3">
                       {upcoming.map((a) => {
                         const tc = typeConfig[a.type]
                         const d = new Date(a.date)
                         return (
                           <div key={a.id} className="flex items-start gap-3">
-                            {/* Date pill */}
                             <div className="flex-shrink-0 w-10 text-center">
                               <div className="text-xs font-bold text-primary-light leading-none">
                                 {d.toLocaleDateString('fr-DZ', { month: 'short' }).toUpperCase()}
@@ -215,12 +244,9 @@ export default function AnnoncesPage() {
                               </div>
                             </div>
                             <div className="flex-1 min-w-0">
-                              <p className="text-sm font-semibold text-slate-200 truncate leading-snug">
-                                {a.title}
-                              </p>
+                              <p className="text-sm font-semibold text-slate-200 truncate leading-snug">{a.title}</p>
                               <span className={`inline-flex items-center gap-1 mt-1 px-2 py-0.5 rounded-full text-[10px] font-semibold border ${tc.color}`}>
-                                {tc.icon}
-                                {tc.label}
+                                {tc.icon}{tc.label}
                               </span>
                             </div>
                           </div>
@@ -230,19 +256,16 @@ export default function AnnoncesPage() {
                   )}
                 </div>
 
-                {/* CTA abonnement */}
                 <div className="mt-4 bg-gradient-to-br from-primary/10 via-primary/5 to-transparent border border-primary/20 rounded-2xl p-6">
                   <div className="w-8 h-8 bg-primary/15 rounded-xl flex items-center justify-center border border-primary/25 mb-4">
                     <Bell className="w-4 h-4 text-primary-light" />
                   </div>
-                  <h3 className="font-heading font-bold text-slate-100 text-sm mb-2">
-                    Ne rien manquer
-                  </h3>
+                  <h3 className="font-heading font-bold text-slate-100 text-sm mb-2">Ne rien manquer</h3>
                   <p className="text-slate-400 text-xs mb-4 leading-relaxed">
                     Inscrivez-vous pour recevoir les prochaines annonces en avant-première.
                   </p>
                   <a
-                    href="https://forms.google.com" // ← remplacer par ton Google Form d'abonnement
+                    href="https://forms.google.com"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1.5 w-full justify-center px-4 py-2.5 rounded-xl text-xs font-semibold text-white bg-primary hover:bg-primary-dark transition-all duration-200 shadow-glow-violet group"
@@ -253,7 +276,6 @@ export default function AnnoncesPage() {
                 </div>
               </div>
             </aside>
-
           </div>
         </div>
       </section>
@@ -267,9 +289,7 @@ export default function AnnoncesPage() {
           <h2 className="font-heading text-2xl md:text-3xl font-bold text-slate-100 mb-4">
             Prêt à rejoindre la prochaine session ?
           </h2>
-          <p className="text-slate-400 mb-8">
-            Inscris-toi maintenant et commence ton parcours avec Digital Campus Dz.
-          </p>
+          <p className="text-slate-400 mb-8">Inscris-toi maintenant et commence ton parcours avec Digital Campus Dz.</p>
           <Link
             href="/inscription"
             className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl text-sm font-semibold text-white bg-primary hover:bg-primary-dark transition-all duration-200 shadow-glow-violet hover:shadow-glow-violet-lg group"
